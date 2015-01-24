@@ -4,6 +4,7 @@ namespace App\Presenters;
 
 use Nette,
 	App\Model;
+use Tracy\Debugger;
 
 
 /**
@@ -12,6 +13,11 @@ use Nette,
 class SignPresenter extends BasePresenter
 {
 
+	public function renderIn()
+	{
+		$this['breadcrumbs']->add('Prihlásiť', 'Sign:in');
+
+	}
 
 	/**
 	 * Sign-in form factory.
@@ -20,15 +26,18 @@ class SignPresenter extends BasePresenter
 	protected function createComponentSignInForm()
 	{
 		$form = new Nette\Application\UI\Form;
-		$form->addText('username', 'Username:')
-			->setRequired('Please enter your username.');
+		$form->addText('user_name', 'Username:')
+			->setRequired('Please enter your username.')
+			->setAttribute('class', 'formEl');
 
 		$form->addPassword('password', 'Password:')
-			->setRequired('Please enter your password.');
+			->setRequired('Please enter your password.')
+			->setAttribute('class', 'formEl');;
 
 		$form->addCheckbox('remember', 'Keep me signed in');
 
-		$form->addSubmit('send', 'Sign in');
+		$form->addSubmit('send', 'Prihlásiť')
+			->setAttribute('class', 'formElB');
 
 		// call method signInFormSucceeded() on success
 		$form->onSuccess[] = array($this, 'signInFormSucceeded');
@@ -41,11 +50,12 @@ class SignPresenter extends BasePresenter
 		if ($values->remember) {
 			$this->getUser()->setExpiration('14 days', FALSE);
 		} else {
-			$this->getUser()->setExpiration('20 minutes', TRUE);
+			$this->getUser()->setExpiration('30 minutes', TRUE);
 		}
 
 		try {
-			$this->getUser()->login($values->username, $values->password);
+			$this->getUser()->login($values->user_name, $values->password);
+			$this->flashMessage('Vitajte '.$values['user_name']);
 			$this->redirect('Default:');
 
 		} catch (Nette\Security\AuthenticationException $e) {
@@ -57,7 +67,7 @@ class SignPresenter extends BasePresenter
 	public function actionOut()
 	{
 		$this->getUser()->logout();
-		$this->flashMessage('You have been signed out.');
+		$this->flashMessage('Boli ste odhlásený.');
 		$this->redirect('in');
 	}
 

@@ -1,0 +1,33 @@
+{extends ../../../templates/@layoutFull.latte}
+
+{block content}
+<div class="pV10 pH25">
+
+
+	{if count($flashes)}
+		<div n:inner-foreach="$flashes as $flash" class="flash">
+			<span>{$flash->message}</span><br>
+		</div>
+	{/if}
+
+
+	{control breadcrumbs}
+	
+
+	{control vp}
+	
+
+	{foreach $articles as $article}
+	<div class="content">
+	    <h2><a n:href=":Blog:Articles:show $article->id, $article->title">{$article->title}</a></h2>
+	
+	    <div class="content">{$article->content|noescape}</div>
+	
+	    <div class="small1 pT10">{$article->ref('users', 'users_id')->user_name} | {$article->created|date:'j. F Y'|datum:sk}</div>
+	</div>
+	{/foreach}
+	
+
+	{control vp}
+
+</div>

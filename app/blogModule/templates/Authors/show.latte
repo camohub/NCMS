@@ -1,0 +1,14 @@
+{extends ../../../templates/@layoutFull.latte}
+
+{block content}
+<div class="pV10 pH25">
+
+	{control breadcrumbs}
+
+
+	<div class="content" n:inner-foreach="$articles as $article">
+		<h2 n:if="$iterator->first">{$article->ref('users', 'users_id')->user_name}</h2>
+		<h3><a n:href=":Blog:Articles:show $article->id">{$article->title}</a></h3>
+	</div>
+
+</div>

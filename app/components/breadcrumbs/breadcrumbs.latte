@@ -1,0 +1,11 @@
+{if count($links) > 1}
+	<ul n:inner-foreach="$links as $item" class="breadcrumbs">
+   		<li class="breadcrumbs">
+			{if !$iterator->last}
+        		<a href="{plink $item['link']}">{$item['text']}</a> »
+        	{else}
+        		<span class="color1">{$item['text']}</span>
+        	{/if}
+        </li>
+	</ul>
+{/if}

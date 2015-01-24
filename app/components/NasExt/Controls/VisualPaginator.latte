@@ -1,0 +1,13 @@
+<div class="visualPaginator">
+	<ul class="pagination">
+		<li><a n:tag-if="!$paginator->isFirst()" n:class="$isAjax ? ajax" n:href="this, 'page' => $paginator->page - 1">«</a></li>		
+
+		{foreach $steps as $step}
+			<li><a n:tag-if="$step != $paginator->page" n:class="$isAjax ? ajax" n:href="this, 'page' => $step">{$step}</a></li>			
+			<li n:if="$iterator->nextValue > $step + 1"><span>...</span></li>			
+		{/foreach}
+
+		<li><a n:tag-if="!$paginator->isLast()" n:class="$isAjax ? ajax" n:href="this, 'page' => $paginator->page + 1">»</a></li>		
+	</ul>
+</div>
+

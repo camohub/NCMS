@@ -1,0 +1,46 @@
+{extends ../../../templates/@layoutFull.latte}
+
+{block content}
+<div class="pV10 pH25">
+
+	{control breadcrumbs}
+
+	<div class="pV30">
+	
+
+	<div n:if="count($flashes)" n:inner-foreach="$flashes as $flash" class="flash">
+		<span>{$flash->message}</span><br>
+	</div>
+
+	
+	<div class="small1">{$article->ref('users', 'users_id')->user_name} | {$article->created|date:'j. n. Y'}</div>
+	
+	<h1 n:block="title">{$article->title}</h1>
+	
+	<div>{$article->content|noescape}</div>
+
+	{if $user->id == $article->users_id}
+		<a n:href=":Admin:Blog:Articles:edit $article->id" class="small1 fR">editovať</a>
+	{/if}
+
+	<div class="hr"><div>
+
+	{if $user->isAllowed('comment', 'add')}
+		<h3>Vložte nový komentár</h3>
+	
+		{control commentForm}
+	{/if}
+	
+	<h3>Komentáre</h3>
+	
+	<div>
+	    {foreach $comments as $comment}
+	        <p class="small1 color1"><b><a href="mailto:{$comment->email}" n:tag-if="$comment->email">{$comment->name}</a></b></p>
+	        <div>{$comment->content}</div>
+	    {/foreach}
+	</div>
+	
+	</div>
+
+</div>
+

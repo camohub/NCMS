@@ -1,0 +1,26 @@
+{extends ../../../templates/@layoutAdmin.latte}
+
+{block content}
+
+<div class="pV10 pH25">
+
+	<div n:if="count($flashes)" n:inner-foreach="$flashes as $flash" class="flash">
+		<span>{$flash->message}</span><br>
+	</div>
+
+	{control breadcrumbs}
+
+	<ul class="pM00 pV10">
+		<li>
+			<a n:href=":Admin:Blog:Default:default">Blog</a>
+		</li>
+		<li>
+			<a n:href=":Admin:Forum:Default:default">Forum</a>
+		</li>
+		<li>
+			<a n:href=":Admin:Eshop:Default:default">Eshop</a>
+		</li>
+	</ul>
+
+</div>
+

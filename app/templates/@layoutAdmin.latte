@@ -1,0 +1,50 @@
+{**
+* @param string $basePath web base path
+* @param array $flashes flash messages
+*}
+
+{extends '@base.latte'}
+
+{block body}
+<div class="center">
+
+	<h1 id="header">Administrácia</h1>
+
+	<div class="sidebar">
+
+		{control menu}
+
+		<ul>
+			{if $presenter->user->isLoggedIn()}
+			<li><a n:href=":Sign:out">Odhlásiť</a></li>
+			<li class="hr"><span>Prihlásený: {$user->identity->user_name}<br>
+				Registrovaný: {$user->identity->created|date:'%d.%m.%Y'}</span></li>
+			{else}
+			<li><a n:href=":Sign:in" {ifCurrent Sign:in}class="current"{/ifCurrent}>Prihlásiť</a></li>
+			<li><a n:href=":Register:default" {ifCurrent Regist:regist}class="current"{/ifCurrent}>Registrovať</a></li>
+			{/if}
+		</ul>
+
+	</div>
+
+	<div class="main">
+
+		{include content}
+
+		{block scripts}
+		<script src="{$basePath}/js/jquery.js"></script>
+		<script src="{$basePath}/js/netteForms.js"></script>
+		<script src="{$basePath}/js/main.js"></script>
+		{/block}
+
+	</div>
+
+
+	<div class="footer">
+		<span class="small1">Created & designed by Camo</span>
+		<br>
+		<span class="small2">2014</span>
+	</div>
+
+</div>
+{/block}

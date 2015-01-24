@@ -1,6 +1,20 @@
-{block content}
-<h1 n:block=title>Sign in</h1>
+{extends ../@layoutSlim.latte}
 
-{control signInForm}
+{block content}
+
+<div class="pV10 pH25">
+
+    <div n:if="count($flashes)" n:inner-foreach="$flashes as $flash" class="flash">
+        <div>{$flash->message}</div>
+    </div>
+
+    {control breadcrumbs}
+
+    <h2 n:block="title" class="mT50 fS2">Prihlasovanie</h2>
+
+
+    {control signInForm}
+
+</div>
 
 {* or use {include '../components/form.latte', form => signInForm} *}

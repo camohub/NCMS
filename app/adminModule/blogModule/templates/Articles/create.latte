@@ -1,0 +1,37 @@
+{extends ../../../../templates/@layoutAdmin.latte}
+
+{block content}
+
+<div class="pV10 pH25">
+
+	<div n:if="count($flashes)" n:inner-foreach="$flashes as $flash" class="flash">
+		<span>{$flash->message}</span><br>
+	</div>
+
+	{control breadcrumbs}
+
+	<div class="pV10">
+		{form articleForm}
+			<ul class="error" n:if="$form->hasErrors()">
+					<li n:foreach="$form->errors as $error">{$error}</li>
+			</ul>
+			<div class="pV10">
+				{label title}{/label}<br>
+				{input title}
+			</div>
+			<div class="pV10">
+				{label meta_desc}{/label}<br>
+				{input meta_desc}
+			</div>
+			<div class="pV10">
+				{label content}{/label}<br>
+				{input content}
+			</div>
+			<div class="pV10">
+				{input sbmt}
+			</div>
+		{/form}
+	</div>
+
+</div>
+

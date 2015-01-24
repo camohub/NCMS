@@ -1,0 +1,31 @@
+{extends ../../../templates/@layoutFull.latte}
+
+{block content}
+<div class="pV10 pH25">
+
+
+	{control breadcrumbs}
+
+
+	{if $users}
+		<table class="mT30">
+			<tr n:inner-foreach="$users as $user">
+				{first}{* makes 2 columns in 2 tds*}
+				<td class="tripleBox">
+
+				{/first}
+					<h3 style="margin:0px; padding-top:3px"><a n:href=":Blog:Authors:show $user->id">{$user->user_name}</a></h3>
+				{last $half}
+
+				</td>
+				<td class="tripleBox">
+				{/last}
+
+				{last}
+				</td>
+				{/last}
+			</tr>
+		</table>
+	{/if}
+</div>
+

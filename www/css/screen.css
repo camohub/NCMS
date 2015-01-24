@@ -1,12 +1,333 @@
+html, body, textarea {
+	padding:0px;
+	margin:0px;
+	width:100%;
+	height:100%;
+	background: #3d4f61;
+	color:#fff;
+	font-family:Arial;
+	font-weight:bold;	
+}
+
 body {
-	font-size: 15px;
-	line-height: 1.6;
-	color: #333;
-	background: white;
+	background:#3d4f61 url("../images/star.jpg") 20px -245px no-repeat;
+	position:relative;
+	overflow:auto;
+}
+
+ul, li { list-style-type: none; }
+
+table, tbody, thead, tr, th, td { border-collapse: collapse }
+
+#header {
+	padding:80px 10px 30px 210px !important;
+	margin:0px;
+	Nbackground-color:pink;
+}
+
+.center {
+	width:950px;
+	min-height:90%;
+	margin:0px auto;
+	padding-bottom:4em;
+	position:relative;
+}
+
+.main {
+	margin:0px 0px 0px 190px;
+	padding:0px;
+	color:#fff;
+}
+
+.sidebar {
+	float:left;
+	width:190px;
+	margin:0px;
+	padding:20px 0px 0px;
+	Nbackground-color:#006AEB;
+}
+
+.sidebar ul {
+	margin:0px;
+	padding:0px;
+	color:#fff;
+	list-style:none inside;;
+	Nbackground-color:cornflowerblue;
+}
+
+.sidebar ul ul {
+	Nbackground-color:darkblue;
+}
+
+.sidebar a {
+	color:#fff;
+	display:block;
+	font-weight:bold;
+	letter-spacing:1px;
+	font-size:1.1em;
+	text-shadow:1px 1px 2px #023;
+}
+
+.sidebar span {
+	display:block;
+	letter-spacing:1px;
+	font-size:.8em;
+}
+
+.sidebar a:hover {
+	color:#bf9966;
+}
+
+a.current {
+	color:#bf9966;
+}
+
+.sidebar ul li a {
+	padding:5px 5px 5px 10px;
+}
+
+.sidebar ul li ul li a {
+	padding-left:30px;
+}
+
+.sidebar ul li ul li ul li a {
+	padding-left:50px;
+}
+
+.sidebar h2 {
+	margin:0px;
+	padding-bottom:20px;
+}
+
+a {
+	color:#CF9956;
+	text-decoration:none;
+}
+
+a:hover {
+	color:#dfa986;
+}
+
+ul li ul li a:hover{
+	color:#CF9956;
 }
 
 h1 {
-	color: #3484D2;
+	color: #fff;                              	
+	margin:0px 0px -12px 203px;
+	padding:80px 0px 0px 20px;
+	font-size:3em;
+	font-family:verdana;
+	letter-spacing:-4px;
+	text-shadow:1px 1px 2px #023;
+}
+
+.main h1 {
+	color:#CF9956;
+	margin:0px;
+	padding:15px 0px;
+	font-size:1.8em;
+	letter-spacing:-1px;
+	text-shadow:1px 1px 2px #023;
+}
+
+h2, h3 {
+	color:#CF9956;
+}
+
+.pM00 {
+	padding:0px;
+	margin:0px;
+}
+
+.p00 {
+	padding:0px;
+}
+
+.m00 {
+	margin:0px;
+}
+
+.mT10 {
+	margin-top:10px;
+}
+
+.mT30 {
+	margin-top:30px !important;
+}
+
+.mT50 {
+	margin-top:50px !important;
+}
+
+.mV25 {
+	margin-left:25px;
+	margin-right:25px;
+}
+
+.p10 {
+	padding:10px;
+}
+
+.p25 {
+	padding:25px;
+}
+
+.pT10 {
+	padding-top:10px;
+}
+.pT20 {
+	padding-top:20px !important;
+}
+.pT50 {
+	padding-top:50px;
+}
+
+.pV10 {
+	padding-top:10px;
+	padding-bottom:10px;
+}
+
+.pV20 {
+	padding-top:20px;
+	padding-bottom:20px;
+}
+
+.pV30 {
+	padding-top:30px;
+	padding-bottom:30px;
+}
+
+.pH10 {
+	padding-left:10px;
+	padding-right:10px;
+}
+
+.pH25 {
+	padding-left: 25px;
+	padding-right: 25px;
+}
+
+.pH50 {
+	padding-left:50px;
+	padding-right:50px;
+}
+
+.pR10 {
+	padding-right:10px;
+}
+
+.foSiz11 {
+	font-size:1.1em;
+}
+
+.fS2 {
+	font-size:2em;
+}
+
+.fL { float:left; }
+.fR { float:right; }
+.clear { clear:both; }
+
+.w200 { width:200px; }
+.w300 { width:300px; }
+.w400 { width:400px; }
+.w500 { width:500px; }
+
+.control {
+	color:#CF9956;
+}
+
+.doubleBox {
+	width:315px;
+	padding:0px;
+	vertical-align:top;
+}
+
+.tripleBox {
+	width:200px;
+	padding:0px;
+	vertical-align:top;
+}
+
+.visualPaginator li {
+	padding-top:20px;
+	display:inline-block;
+	/*float:left;*/
+	list-style:none;
+	color:#cf9956;
+}
+
+.visualPaginator li a {
+	color:#fff;
+}
+
+.formEl, input, textarea {
+	display:inline-block;
+	padding:5px;
+	background-color:transparent;
+	border:1px dotted #bbcccc;
+	color:#fff;
+}
+
+.formElB, input[type=submit] {
+	display: block;
+	padding:4px 20px;
+	cursor:pointer;
+}
+
+label {
+	color:#fff;
+	font-weight:bold;
+}
+
+textArea {
+	padding:5px;
+}
+
+form td,
+form th {
+	padding:7px 7px;
+	min-width:80px;
+	vertical-align: center;
+	font-weight: normal;
+	Nborder:1px solid red; 
+}
+
+form th {
+	text-align: right;
+}
+
+form .required label {
+	font-weight: bold;
+}
+
+.footer {
+	text-align:center;
+	font-weight:normal;
+	position:absolute;
+	left:0px;
+	bottom:0px;
+	height:3em;
+	width:90%;
+	padding:0.5em 5%;
+	clear:both;
+} 
+
+.hr {
+	margin-top:40px;
+	padding-top: 20px;
+	border-top:1px dotted #889999;
+}
+
+.area400 {
+	width:400px;
+	height:60px;
+}
+
+.area600 {
+	width:600px;
+	height:450px;
 }
 
 #ajax-spinner {
@@ -19,36 +340,77 @@ h1 {
 }
 
 div.flash {
-	color: black;
-	background: #FFF9D7;
-	border: 1px solid #E2C822;
-	padding: 1em;
-	margin: 1em 0;
+	color: #243f57;
+	background: #dFa956;
+	padding: .7em;
+	margin:7px 0px;
+	font-weight:bold;
 }
 
-a[href^="#error:"] {
+a[href^="error:"] {
 	background: red;
 	color: white;
 }
 
-form th, form td {
-	vertical-align: top;
-	font-weight: normal;
-}
-
-form th {
-	text-align: right;
-}
-
-form .required label {
+.error, ul.error li {
+	color: #FF7085;
+	margin: 0px;
+	padding: 3px;
 	font-weight: bold;
+	list-style:none;
 }
 
-form .error {
-	color: #D00;
-	font-weight: bold;
+ul.error {
+	padding-bottom:15px;
 }
+
+.small1 { font-size:0.8em; }
+.small2 { font-size:0.65em; }
+
+.color1 { color:#CF9956; }
+.color2 { color:#fff; }
+.color3 { color: #3d4f61; }
+
+.bgC5 { background-color: #dfe0eb; }
+.bgC6 { background-color: #3d4f61; }
+
+.bor1 { border: 1px solid #dfe0eb; }
+.bor2 { border: 1px solid #fff; }
+.bor3 { border: 1px solid #CF9956; }
+.bor4 { border: 1px solid #3d4f61; }
+.bor5 { border: 1px solid #7491a3; }
+
+
+table.datagrid { background-color: #dfe0eb; color:#3d4f61; margin-top:10px; }
+table.datagrid td, table.datagrid th { padding:7px; border:1px solid #7491a3; }
+
 
 html.js .jshidden {
 	display: none;
 }
+
+.nette-panel h1 {/* seká sa to s csskom zo stránky */
+	letter-spacing:0px
+}
+
+ul.breadcrumbs {
+	margin:10px 0px 0px 0px;
+	padding:0px;
+}
+
+li.breadcrumbs {
+	display:inline-block;
+	padding:5px 0px;
+}
+
+li.breadcrumbs a {
+	color:#CF9956;
+}
+
+.ico { padding-left:20px; display:inline-block; min-height:20px; }
+.ico_modify { background:url('/ncms/www/images/icons/Modify.png') 2px center no-repeat; }
+.ico_delete { background:url('/ncms/www/images/icons/Delete.png') 2px center no-repeat; }
+.ico_comment { background:url('/ncms/www/images/icons/Comment.png') 2px center no-repeat; }
+.ico_no-entry { background:url('/ncms/www/images/icons/No-entry.png') 2px center no-repeat; }
+.ico_ok { background:url('/ncms/www/images/icons/OK.png') 2px center no-repeat; }
+.ico_trash { background:url('/ncms/www/images/icons/Trash.png') 2px center no-repeat; }

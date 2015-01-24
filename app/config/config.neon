@@ -21,7 +21,7 @@ nette:
 		expiration: 14 days
 
 	database:
-		dsn: 'mysql:host=127.0.0.1;dbname=quickstart'
+		dsn: 'mysql:host=127.0.0.1;dbname=ncms'
 		user: root
 		password: toor
 
@@ -29,5 +29,8 @@ nette:
 services:
 	- App\Model\UserManager
 	router: App\RouterFactory::createRouter
-
-	#- App\Model\Blog
+	authorizatorFactory: App\Model\AuthorizatorFactory
+	authorizator: @authorizatorFactory::create
+	- App\Model\Categories
+	- App\Model\BlogArticles
+	- App\Model\Users

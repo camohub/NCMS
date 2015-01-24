@@ -1,0 +1,16 @@
+{extends ../@layoutSlim.latte}
+
+{block content}
+<div class="pV10 pH25">
+
+    <h1 n:block=title>Registrácia</h1>
+
+    {control breadcrumbs}
+
+    <div n:foreach="$flashes as $flash" class="flash">{$flash->message}</div>
+
+    {control registForm}
+
+    {* or use {include '../components/form.latte', form => registInForm} *}
+
+</div>
