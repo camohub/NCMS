@@ -389,8 +389,9 @@ html.js .jshidden {
 	display: none;
 }
 
-.nette-panel h1 {/* seká sa to s csskom zo stránky */
-	letter-spacing:0px
+#tracy-debug h1 {/* seká sa to s csskom zo stránky */
+	letter-spacing:0px;
+	text-shadow:0 0 0 #fff;
 }
 
 ul.breadcrumbs {

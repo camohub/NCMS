@@ -16,12 +16,13 @@
 
 		<ul>
 			{if $presenter->user->isLoggedIn()}
-			<li><a n:href=":Sign:out">Odhlásiť</a></li>
+			<li><a n:href=":Admin:Default:default" n:class="$presenter->isSectionCurrent(':Admin') ? current" rel="nofollow">Administrácia</a></li>
+			<li><a n:href=":Sign:out" rel="nofollow">Odhlásiť</a></li>
 			<li class="hr"><span>Prihlásený: {$user->identity->user_name}<br>
 				Registrovaný: {$user->identity->created|date:'%d.%m.%Y'}</span></li>
 			{else}
-			<li><a n:href=":Sign:in" {ifCurrent Sign:in}class="current"{/ifCurrent}>Prihlásiť</a></li>
-			<li><a n:href=":Register:default" {ifCurrent Regist:regist}class="current"{/ifCurrent}>Registrovať</a></li>
+			<li><a n:href=":Sign:in" {ifCurrent Sign:in}class="current"{/ifCurrent} rel="nofollow">Prihlásiť</a></li>
+			<li><a n:href=":Register:default" {ifCurrent Regist:regist}class="current"{/ifCurrent} rel="nofollow">Registrovať</a></li>
 			{/if}
 		</ul>
 

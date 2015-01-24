@@ -16,6 +16,7 @@
 
 		<ul>
 			{if $presenter->user->isLoggedIn()}
+			<li><a n:href=":Admin:Default:default" n:class="$presenter->isSectionCurrent(':Admin') ? current" rel="nofollow">Administrácia</a></li>
 			<li><a n:href=":Sign:out">Odhlásiť</a></li>
 			<li class="hr"><span>Prihlásený: {$user->identity->user_name}<br>
 				Registrovaný: {$user->identity->created|date:'%d.%m.%Y'}</span></li>
