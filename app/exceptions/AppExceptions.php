@@ -14,8 +14,17 @@ class DuplicateEntryException extends \Exception {}
 
 /**
  * @desc user have not premission to view or do something
- * Class AccesDeniedException
+ * Class AccessDeniedException
  * @package App\Exceptions
  */
-class AccesDeniedException extends \Exception {}
+class AccessDeniedException extends \Exception {}
+
+/**
+ * @desc parameter suplied as an argument is wrong (typehint/range)
+ * Class AccessDeniedException
+ * @package App\Exceptions
+ */
+class InvalidArgumentException extends \Exception {}
+
+
 

@@ -4,6 +4,7 @@ namespace App\AdminModule\BlogModule\Presenters;
 use	Nette,
 	App,
 	Nette\Application\UI\Form,
+	Nette\Utils\Finder,
 	Nette\Diagnostics\Debugger;
 
 class ArticlesPresenter extends App\AdminModule\Presenters\BaseAdminPresenter
@@ -66,12 +67,12 @@ class ArticlesPresenter extends App\AdminModule\Presenters\BaseAdminPresenter
 	{
 		if(!$this->user->isAllowed('article', 'create'))
 		{
-			throw new App\Exceptions\AccesDeniedException('Nemáte oprávnenie vytvárať články.');
+			throw new App\Exceptions\AccessDeniedException('Nemáte oprávnenie vytvárať články.');
 		}
 
 		$this['breadcrumbs']->add('blog', ':Admin:Blog:Default:default');
 		$this['breadcrumbs']->add('články', ':Admin:Blog:Articles:default');
-		$this['breadcrumbs']->add('editovať', ':Admin:Blog:Articles:create');
+		$this['breadcrumbs']->add('vytvoriť', ':Admin:Blog:Articles:create');
 
 	}
 
@@ -81,14 +82,14 @@ class ArticlesPresenter extends App\AdminModule\Presenters\BaseAdminPresenter
 	{
 		if(!$this->user->isAllowed('article', 'edit'))
 		{
-			throw new App\Exceptions\AccesDeniedException('Nemáte oprávnenie editovať články.');
+			throw new App\Exceptions\AccessDeniedException('Nemáte oprávnenie editovať články.');
 		}
 
 		$this->article = $this->blogArticles->findOneBy(array('id' => (int)$id), 'admin');
 
 		if( !($this->article->users_id == $this->user->id || $this->user->isInRole('admin')) )
 		{
-			throw new App\Exceptions\AccesDeniedException('Nemáte právo editovať tento článok.');
+			throw new App\Exceptions\AccessDeniedException('Nemáte právo editovať tento článok.');
 		}
 
 		$this['articleForm']->setDefaults($this->article);
@@ -96,6 +97,8 @@ class ArticlesPresenter extends App\AdminModule\Presenters\BaseAdminPresenter
 		$this['breadcrumbs']->add('blog', ':Admin:Blog:Default:default');
 		$this['breadcrumbs']->add('články', ':Admin:Blog:Articles:default');
 		$this['breadcrumbs']->add('editovať', ':Admin:Blog:Articles:edit');
+
+		Finder::findFiles('*')->in('hhhh');
 
 	}
 
@@ -105,14 +108,14 @@ class ArticlesPresenter extends App\AdminModule\Presenters\BaseAdminPresenter
 	{
 		if(!$this->user->isAllowed('article', 'edit'))
 		{
-			throw new App\Exceptions\AccesDeniedException('Nemáte oprávnenie editovať články.');
+			throw new App\Exceptions\AccessDeniedException('Nemáte oprávnenie editovať články.');
 		}
 
 		$this->article = $this->blogArticles->findOneBy(array('id' => (int)$id), 'admin');
 
 		if( !($this->article->users_id == $this->user->id || $this->user->isInRole('admin')) )
 		{
-			throw new App\Exceptions\AccesDeniedException('Nemáte právo editovať tento článok.');
+			throw new App\Exceptions\AccessDeniedException('Nemáte právo editovať tento článok.');
 		}
 
 		$status = $this->article->status == 1 ? 0 : 1;
@@ -128,14 +131,14 @@ class ArticlesPresenter extends App\AdminModule\Presenters\BaseAdminPresenter
 	{
 		if(!$this->user->isAllowed('article', 'delete'))
 		{
-			throw new App\Exceptions\AccesDeniedException('Nemáte oprávnenie mazať články.');
+			throw new App\Exceptions\AccessDeniedException('Nemáte oprávnenie mazať články.');
 		}
 
 		$this->article = $this->blogArticles->findOneBy(array('id' => (int)$id), 'admin');
 
 		if( !($this->article->users_id == $this->user->id || $this->user->isInRole('admin')) )
 		{
-			throw new App\Exceptions\AccesDeniedException('Nemáte právo zmazať tento článok');
+			throw new App\Exceptions\AccessDeniedException('Nemáte právo zmazať tento článok');
 		}
 
 		$this->blogArticles->delete((int)$id);
@@ -158,7 +161,7 @@ class ArticlesPresenter extends App\AdminModule\Presenters\BaseAdminPresenter
 
 		$form->addTextArea('content', 'Text:')
 		->setRequired()
-		->setAttribute('class', 'area600');
+		->setAttribute('class', 'area600 editor');
 
 		$form->addSubmit('sbmt', 'Uložiť');
 
@@ -178,7 +181,7 @@ class ArticlesPresenter extends App\AdminModule\Presenters\BaseAdminPresenter
 		{
 			try {
 				$this->blogArticles->updateArticle($values, $id);
-				$this->flashMessage('Článok bol upravený');
+				$this->flashMessage('Článok bol upravený.');
 			}
 			catch(\Exception $e) {
 				$form->addError('Pri ukladaní článku došlo k chybe.');
@@ -189,8 +192,10 @@ class ArticlesPresenter extends App\AdminModule\Presenters\BaseAdminPresenter
 		else
 		{
 			try {
+				$values['created'] = time();
+				$values['users_id'] = $this->user->id;
 				$this->blogArticles->insertArticle($values);
-				$this->flashMessage('Článok bol vytvorený');
+				$this->flashMessage('Článok bol vytvorený.');
 			}
 			catch(\Exception $e) {
 				$form->addError('Pri ukladaní článku došlo k chybe.');

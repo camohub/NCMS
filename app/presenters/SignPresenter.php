@@ -13,10 +13,9 @@ use Tracy\Debugger;
 class SignPresenter extends BasePresenter
 {
 
-	public function renderIn()
+	public function renderIn($back_link = NULL)
 	{
 		$this['breadcrumbs']->add('Prihlásiť', 'Sign:in');
-
 	}
 
 	/**
@@ -35,6 +34,9 @@ class SignPresenter extends BasePresenter
 			->setAttribute('class', 'formEl');;
 
 		$form->addCheckbox('remember', 'Keep me signed in');
+
+		$form->addHidden('back_link')
+		->setDefaultValue($this->getParameter('back_link', NULL));
 
 		$form->addSubmit('send', 'Prihlásiť')
 			->setAttribute('class', 'formElB');
@@ -56,7 +58,14 @@ class SignPresenter extends BasePresenter
 		try {
 			$this->getUser()->login($values->user_name, $values->password);
 			$this->flashMessage('Vitajte '.$values['user_name']);
-			$this->redirect('Default:');
+			if ($values['back_link'])
+			{
+				$this->restoreRequest($values['back_link']);
+			}
+			else
+			{
+				$this->redirect('Default:');
+			}
 
 		} catch (Nette\Security\AuthenticationException $e) {
 			$form->addError($e->getMessage());

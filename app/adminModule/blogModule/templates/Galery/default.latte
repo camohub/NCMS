@@ -1,0 +1,27 @@
+{extends ../../../../templates/@base.latte}
+
+{block body}
+
+<div class="pV10 pH25">
+
+	<div n:if="count($flashes)" n:inner-foreach="$flashes as $flash" class="flash">
+		<span>{$flash->message}</span><br>
+	</div>
+
+	<img n:if="count($files)" n:foreach="$files as $file" src="{$url}/{$file->getFilename()}" onclick="insert(this.src)" class="dIB p5 w75"><br>
+
+</div>
+
+<script>
+function insert(url)
+{
+	var params = top.tinymce.activeEditor.windowManager.getParams(),
+	input = params.input,
+	win = params.window;
+
+	url = url.replace('thumbnails/', '');
+	win.document.getElementById(input).value = url;
+	top.tinymce.activeEditor.windowManager.close();
+}
+</script>
+

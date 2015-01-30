@@ -68,7 +68,7 @@ class RegisterPresenter extends \App\Presenters\BasePresenter
 		$values = $form->getValues();
 		if(isset($values->role) && !$this->user->isAllowed('user', 'create'))
 		{
-			throw new App\Exceptions\AccesDeniedException('Nemáte oprávnenia pre prideľovanie užívateľských rolí.');
+			throw new App\Exceptions\AccessDeniedException('Nemáte oprávnenia pre prideľovanie užívateľských rolí.');
 		}
 
 		try

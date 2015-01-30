@@ -5,26 +5,26 @@
 # http://nette.org/security-warning
 #
 parameters:
-
+	absoluteUrl: http://ncms.sk
+	documentRoot:
 
 php:
 	date.timezone: Europe/Prague
-
 
 nette:
 	application:
 		errorPresenter: Error
 		mapping:
 			*: App\*Module\Presenters\*Presenter
-
 	session:
 		expiration: 14 days
 
-	database:
-		dsn: 'mysql:host=127.0.0.1;dbname=ncms'
-		user: root
-		password: toor
-
+database:
+	dsn: 'mysql:host=127.0.0.1;dbname=ncms'
+	user: root
+	password: toor
+	options:
+		lazy: yes
 
 services:
 	- App\Model\UserManager
@@ -34,3 +34,4 @@ services:
 	- App\Model\Categories
 	- App\Model\BlogArticles
 	- App\Model\Users
+

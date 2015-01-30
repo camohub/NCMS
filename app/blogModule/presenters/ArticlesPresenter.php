@@ -90,7 +90,7 @@ class ArticlesPresenter extends \App\Presenters\BasePresenter
 	{
 		if(!$this->user->isAllowed('comment', 'add'))
 		{
-			throw new App\Exceptions\AccesDeniedException('Pridávať komentáre môžu iba regirovaní užívatelia.');
+			throw new App\Exceptions\AccessDeniedException('Pridávať komentáre môžu iba regirovaní užívatelia.');
 		}
 		$values = $form->getValues();
 		$id = (int)$this->getParameter('id');

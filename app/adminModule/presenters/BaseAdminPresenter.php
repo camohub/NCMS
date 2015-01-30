@@ -20,11 +20,11 @@ class BaseAdminPresenter extends \App\Presenters\BasePresenter
 		if(!$this->user->isLoggedIn())
 		{
 			$this->flashMessage('Pred vstupom do administrácie sa musíte prihlásiť.');
-			$this->redirect(':Sign:in');
+			$this->redirect(':Sign:in', $this->storeRequest());
 		}
 		if(!$this->user->isAllowed('administration', 'view'))
 		{
-			throw new App\Exceptions\AccesDeniedException('Nemáte požadvané oprávnenie pre vstup do administrácie');
+			throw new App\Exceptions\AccessDeniedException('Nemáte požadované oprávnenie pre vstup do administrácie.');
 		}
 
 		parent::startup();
