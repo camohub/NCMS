@@ -4,7 +4,9 @@
 
 <div class="pV10 pH25">
 
-	<div n:foreach="$flashes as $flash" class="flash">{$flash->message}</div>
+    <div n:if="count($flashes)" n:inner-foreach="$flashes as $flash" class="flash">
+        <div class="{$flash->type}">{$flash->message}</div>
+    </div>
 
 	<h2 n:block=title class="mT10">Víta Vás NCMS</h2>
 

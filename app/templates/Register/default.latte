@@ -7,7 +7,9 @@
 
     {control breadcrumbs}
 
-    <div n:foreach="$flashes as $flash" class="flash">{$flash->message}</div>
+    <div n:if="count($flashes)" n:inner-foreach="$flashes as $flash" class="flash">
+        <div class="{$flash->type}">{$flash->message}</div>
+    </div>
 
     {control registForm}
 

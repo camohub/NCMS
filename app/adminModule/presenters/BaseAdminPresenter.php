@@ -29,8 +29,9 @@ class BaseAdminPresenter extends \App\Presenters\BasePresenter
 
 		parent::startup();
 
-		$this['breadcrumbs']->remove(0);
+		$this['breadcrumbs']->remove(0);  // parent BasePresenter adds Default:default in startup
 		$this['breadcrumbs']->add('Administrácia', ':Admin:Default:default');
 	}
+
 
 }

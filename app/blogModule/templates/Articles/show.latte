@@ -1,6 +1,7 @@
 {extends ../../../templates/@layoutFull.latte}
 
 {block content}
+
 <div class="pV10 pH25">
 
 	{control breadcrumbs}
@@ -9,7 +10,7 @@
 	
 
 	<div n:if="count($flashes)" n:inner-foreach="$flashes as $flash" class="flash">
-		<span>{$flash->message}</span><br>
+		<span class="flash->type">{$flash->message}</span><br>
 	</div>
 
 	
@@ -23,7 +24,7 @@
 		<a n:href=":Admin:Blog:Articles:edit $article->id" class="small1 fR">editovať</a>
 	{/if}
 
-	<div class="hr"><div>
+	<div class="hr"></div>
 
 	{if $user->isAllowed('comment', 'add')}
 		<h3>Vložte nový komentár</h3>

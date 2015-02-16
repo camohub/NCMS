@@ -35,8 +35,12 @@ class SignPresenter extends BasePresenter
 
 		$form->addCheckbox('remember', 'Keep me signed in');
 
-		$form->addHidden('back_link')
-		->setDefaultValue($this->getParameter('back_link', NULL));
+
+		if($backLink = $this->getParameter('back_link', NULL))
+		{
+			$form->addHidden('back_link')
+			->setDefaultValue($this->getParameter('back_link', NULL));
+		}
 
 		$form->addSubmit('send', 'Prihlásiť')
 			->setAttribute('class', 'formElB');
@@ -58,7 +62,7 @@ class SignPresenter extends BasePresenter
 		try {
 			$this->getUser()->login($values->user_name, $values->password);
 			$this->flashMessage('Vitajte '.$values['user_name']);
-			if ($values['back_link'])
+			if (isset($values['back_link']))
 			{
 				$this->restoreRequest($values['back_link']);
 			}

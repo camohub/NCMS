@@ -2,25 +2,50 @@
 
 {block content}
 
-<div class="pV10 pH25">
+<div class="pV20 pH25">
 
-	<div n:if="count($flashes)" n:inner-foreach="$flashes as $flash" class="flash">
-		<span>{$flash->message}</span><br>
-	</div>
+    <div n:if="count($flashes)" n:inner-foreach="$flashes as $flash" class="flash">
+        <div class="{$flash->type}">{$flash->message}</div>
+    </div>
 
-	{control breadcrumbs}
+	<table class="adminMenu p0 bgC5 w100P vAT">
+		<tr>
 
-	<ul class="pM00 pV10">
-		<li>
-			<a n:href=":Admin:Blog:Default:default">Blog</a>
-		</li>
-		<li>
-			<a n:href=":Admin:Forum:Default:default">Forum</a>
-		</li>
-		<li>
-			<a n:href=":Admin:Eshop:Default:default">Eshop</a>
-		</li>
-	</ul>
+			<td class="w25P b4 p0">
+				<h4 class="button2 p5">Blog</h4>
+				<ul>
+           			<li><a n:href=":Admin:Blog:Articles:create">Vytvoriť nový článok</a></li>
+           			<li><a n:href=":Admin:Blog:Articles:default">Editovať články</a></li>
+           		</ul>
+			</td>
+
+			<td class="w25P b4 p0">
+				<h4 class="button2 p5"><a n:href=":Admin:Blog:Default:default">Eshop</a></h4>
+			</td>
+
+			<td class="w25P b4 p0">
+				<h4 class="button2 p5"><a n:href=":Admin:Blog:Default:default">Forum</a></h4>
+			</td>
+
+			<td class="w25P b4 p0">
+				<h4 class="button2 p5">Menu</h4>
+				<ul>
+                	<li><a n:href=":Admin:Menu:default">Menu</a></li>
+               	</ul>
+
+				<h4 class="button2 p5">Obrázky</h4>
+				<ul>
+                	<li><a n:href=":Admin:Images:blog">Blog</a></li>
+                	<li><a n:href=":Admin:Images:eshop">Eshop</a></li>
+               	</ul>
+
+				<h4 class="button2 p5 mB5">Drom</h4>
+				<ul>
+                	<li><a n:href=":Admin:Drom:default">Drom</a></li>
+               	</ul>
+			</td>
+		</tr>
+	</table>
 
 </div>
 

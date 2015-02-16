@@ -29,15 +29,14 @@ class ArticlesPresenter extends App\AdminModule\Presenters\BaseAdminPresenter
 		parent::startup();
 		$this->blogArticles = new App\Model\BlogArticles($this->database);
 		$this->users = new App\Model\Users($this->database);
+
+		$this['breadcrumbs']->add('Články', ':Admin:Blog:Articles:default');
 	}
 
 
 
 	public function renderDefault()
 	{
-		$this['breadcrumbs']->add('blog', ':Admin:Blog:Default:default');
-		$this['breadcrumbs']->add('články', ':Admin:Blog:Articles:default');
-
 		// filter is relevant only for admin if he sets some in ArticlesFilterForm
 		// $filter == $form->getValues()
 		if($filter = $this->getSession('Admin:Blog:Articles')->filter)
@@ -70,9 +69,7 @@ class ArticlesPresenter extends App\AdminModule\Presenters\BaseAdminPresenter
 			throw new App\Exceptions\AccessDeniedException('Nemáte oprávnenie vytvárať články.');
 		}
 
-		$this['breadcrumbs']->add('blog', ':Admin:Blog:Default:default');
-		$this['breadcrumbs']->add('články', ':Admin:Blog:Articles:default');
-		$this['breadcrumbs']->add('vytvoriť', ':Admin:Blog:Articles:create');
+		$this['breadcrumbs']->add('Vytvoriť', ':Admin:Blog:Articles:create');
 
 	}
 
@@ -94,11 +91,7 @@ class ArticlesPresenter extends App\AdminModule\Presenters\BaseAdminPresenter
 
 		$this['articleForm']->setDefaults($this->article);
 
-		$this['breadcrumbs']->add('blog', ':Admin:Blog:Default:default');
-		$this['breadcrumbs']->add('články', ':Admin:Blog:Articles:default');
-		$this['breadcrumbs']->add('editovať', ':Admin:Blog:Articles:edit');
-
-		Finder::findFiles('*')->in('hhhh');
+		$this['breadcrumbs']->add('Editovať', ':Admin:Blog:Articles:edit');
 
 	}
 
@@ -188,6 +181,7 @@ class ArticlesPresenter extends App\AdminModule\Presenters\BaseAdminPresenter
 				Debugger::log($e->getMessage(), Debugger::ERROR);
 				return $form;
 			}
+			$this->redirect('this');
 		}
 		else
 		{
@@ -202,9 +196,9 @@ class ArticlesPresenter extends App\AdminModule\Presenters\BaseAdminPresenter
 				Debugger::log($e->getMessage(), Debugger::ERROR);
 				return $form;
 			}
+			$this->redirect(':Admin:Blog:Articles:default');
 		}
 
-		$this->redirect('this');
 	}
 
 /////////component//////////////////////////////////////////////

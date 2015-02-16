@@ -3,25 +3,38 @@ namespace App\AdminModule\BlogModule\Presenters;
 
 use	Nette,
 	App,
+	App\Model\Images,
 	Nette\Utils\Finder,
 	Nette\Diagnostics\Debugger;
 
 class GaleryPresenter extends App\AdminModule\Presenters\BaseAdminPresenter
 {
 
+	/** @var  App\Model\Images */
+	protected $imagesModel;
 
-	public function renderDefault($dir = 'blog')
+
+
+	public function startup()
 	{
-		$allow = array('products','blog','forum');
-		if(!in_array($dir, $allow))
-		{
-			throw new App\Exceptions\InvalidArgumentException('Parameter ' . $dir . ' nieje v platnom rozsahu.');
-		}
+		parent::startup();
+		$this->imagesModel = new Images($this->database);
+	}
 
-		$this->template->dir = $dir;
-		$this->template->url = $this->context->parameters['documentRoot'].'/www/images/'.$dir.'/thumbnails';
-		// Nex path is not the same as url!!! url == /NCMS/...    in() param == C:\Apache24....
-		$this->template->files = Finder::find('*')->in($this->context->parameters['wwwDir'].'/images/'.$dir.'/thumbnails');
+
+
+	public function renderDefault()
+	{
+		$images = $this->imagesModel->findBy(array('module_id' => 1), 'admin')->order('id DESC');
+
+		$vp = $this['vp'];
+		$paginator = $vp->getPaginator();
+		$paginator->itemsPerPage = 15;
+		$paginator->itemCount = count($images);
+
+		$this->template->images = $images->limit($paginator->itemsPerPage, $paginator->offset);
+		$this->template->page = $paginator->page;
+
 
 	}
 

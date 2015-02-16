@@ -15,14 +15,24 @@ class ArticlesPresenter extends \App\Presenters\BasePresenter
 	/** @var Nette\Caching\IStorage @inject */
 	public $storage;
 
+	/** @var  App\Model\BlogArticles */
+	protected $blogArticles;
+
+
+
+	public function startup()
+	{
+		parent::startup();
+		$this->blogArticles = new Model\BlogArticles($this->database);
+	}
+
 
 
 	public function renderDefault()
 	{
-		$blogArticles = new Model\BlogArticles($this->database);
-		$articles = $blogArticles->findAll();
-
 		$this['breadcrumbs']->add('Članky', 'Blog:Articles:default');
+
+		$articles = $this->blogArticles->findAll();
 
 		$vp = $this['vp'];
 		$paginator = $vp->getPaginator();
@@ -36,33 +46,21 @@ class ArticlesPresenter extends \App\Presenters\BasePresenter
 
 	public function renderShow($id, $title)
 	{
-		$blogArticles = new Model\BlogArticles($this->database);
-
 		$this['breadcrumbs']->add('Članky', 'Blog:Articles:show');
 
-		$article = $blogArticles->findOneBy(array('id' => (int)$id));
+		$article = $this->blogArticles->findOneBy(array('id' => (int)$id));
 		$this->template->article = $article;
 
 		$this->template->comments = $article->related('blog_comments.blog_articles_id')->order('created_at');
 	}
 
 
-/////component/////////////////////////////////////////////////////////////////////
 
-	protected function createComponentVp($name)
+	public function renderSection($id)
 	{
-		$control = new \NasExt\Controls\VisualPaginator($this, $name);
-		// enable ajax request, default is false
-		/*$control->setAjaxRequest();
-		
-		$that = $this;
-		$control->onShowPage[] = function ($component, $page) use ($that) {
-		if($that->isAjax()){
-		$that->invalidateControl();
-		}
-		};   */
-		return $control;
+		$articles = $this->blogArticles->findBy(array('blog_article_category.id', (int)$id));
 	}
+
 
 /////component/////////////////////////////////////////////////////////////////////////
 

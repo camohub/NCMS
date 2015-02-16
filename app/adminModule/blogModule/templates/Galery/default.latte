@@ -4,11 +4,19 @@
 
 <div class="pV10 pH25">
 
-	<div n:if="count($flashes)" n:inner-foreach="$flashes as $flash" class="flash">
-		<span>{$flash->message}</span><br>
-	</div>
+    <div n:if="count($flashes)" n:inner-foreach="$flashes as $flash" class="flash">
+        <div class="{$flash->type}">{$flash->message}</div>
+    </div>
 
-	<img n:if="count($files)" n:foreach="$files as $file" src="{$url}/{$file->getFilename()}" onclick="insert(this.src)" class="dIB p5 w75"><br>
+    <div class="tAC">
+
+    	{control vp}
+
+		<img n:if="count($images)" n:foreach="$images as $image" src="{$basePath}/images/blog/thumbnails/{$image->name}" onclick="insert(this.src)" class="dIB p5 w75"><br>
+
+		{control vp}
+
+	</div>
 
 </div>
 
@@ -17,11 +25,17 @@ function insert(url)
 {
 	var params = top.tinymce.activeEditor.windowManager.getParams(),
 	input = params.input,
-	win = params.window;
+	win = params.window,
+	page = params.page;
 
 	url = url.replace('thumbnails/', '');
 	win.document.getElementById(input).value = url;
+
+
 	top.tinymce.activeEditor.windowManager.close();
 }
+
+top.tinymce.activeEditor.imageBrowserPage = {$page};
+
 </script>
 

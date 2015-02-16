@@ -1,0 +1,31 @@
+{extends ../../../templates/@layoutAdmin.latte}
+
+{block content}
+
+<div class="pV10 pH25">
+
+	{snippet flash}
+    <div n:if="count($flashes)" n:inner-foreach="$flashes as $flash" class="flash">
+        <div class="{$flash->type}">{$flash->message}</div>
+    </div>
+	{/snippet}
+
+	{control breadcrumbs}
+
+	<div class="bgC5 mT10 c3">
+		<div class="p10">
+			{form insertForm}
+				<ul class="error" n:if="$form->hasErrors()">
+						<li n:foreach="$form->errors as $error">{$error}</li>
+				</ul>
+
+				{input images}<br>
+				<span class="small1">Viac obrázkov naraz vyberiete stlačením klávesy ctrl. Maximálny počet je 5 obrázkov.
+				<br><br>
+
+				{input sbmt}
+			{/form}
+		</div>
+	</div>
+
+</div>

@@ -1,0 +1,31 @@
+{extends ../../../../templates/@layoutAdmin.latte}
+
+{block content}
+<div class="pV10 pH25">
+
+	{snippet flash}
+    <div n:if="count($flashes)" n:inner-foreach="$flashes as $flash" class="flash">
+        <div class="{$flash->type}">{$flash->message}</div>
+    </div>
+	{/snippet}
+
+	{control breadcrumbs}
+
+	<h3 class="c2">
+		Komentáre k článku <span class="c1">{$article->title}</span>
+		<span class="small1">autor {$article->ref('users','users_id')->user_name}</span>
+	</h3>
+
+
+	{snippet comments}
+	{var $comments = $article->related('blog_comments','blog_articles_id')}
+	<div n:if="count($comments)" n:class="pH10, pV20, $iterator->isOdd() ? bgC9" n:foreach="$comments as $comment">
+		<a n:href="delete! comment_id => $comment->id" class="ajax ico ico_trash fR" title="Delete"> </a>
+		<div class="small1 c1">{$comment->name} {$comment->created_at|date:'j.n.Y H:i'}</div>
+		<div class="pV5">{$comment->content}</div>
+	</div>
+	{/snippet}
+
+
+
+</div>

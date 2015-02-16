@@ -4,9 +4,9 @@
 
 <div class="pV10 pH25">
 
-	<div n:if="count($flashes)" n:inner-foreach="$flashes as $flash" class="flash">
-		<span>{$flash->message}</span><br>
-	</div>
+    <div n:if="count($flashes)" n:inner-foreach="$flashes as $flash" class="flash">
+        <div class="{$flash->type}">{$flash->message}</div>
+    </div>
 
 	{control breadcrumbs}
 
@@ -80,21 +80,32 @@ tinymce.init({
 
     file_browser_callback: function (field_name, url, type, win) {
 
-        var browserURL = {link :Admin:Blog:Galery:default} + '?type=' + type + '&dir=blog';
+		if(type == 'image')
+		{
+			var page = (typeof tinymce.activeEditor.imageBrowserPage == 'undefined') ? 1 : tinymce.activeEditor.imageBrowserPage;
+			// Every module and medium have its own GaleryPresenter so no need to send module/type or make link makro universal
+			var browserURL = {link :Admin:Blog:Galery:default} + '?type=' + type + '&vp-page=' + page;
+			var title = 'Image browser';
+		}
 
-        tinyMCE.activeEditor.windowManager.open({
-            url : browserURL,
-            title : 'File Browser',
-            width : 600,  // Windov dimensions
-            height : 550,
-            resizable : true,
-            scrollbars : true
-        }, {
-            window : win,
-            input : field_name
-        });
-        return false;
+		tinyMCE.activeEditor.windowManager.open(
+		{
+			url : browserURL,
+			title : title,
+			width : 340,  // Windov dimensions
+			height : 500,
+			resizable : true,
+			scrollbars : true
+        },
+        {
+   			window : win,
+   			input : field_name
+        }).moveTo(0,0);
+
+		return false;
+
     },
+
     file_browser_callback_types: 'file image media'
 
  });

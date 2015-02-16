@@ -5,7 +5,7 @@
 <div class="pV10 pH25">
 
     <div n:if="count($flashes)" n:inner-foreach="$flashes as $flash" class="flash">
-        <div>{$flash->message}</div>
+        <div class="{$flash->type}">{$flash->message}</div>
     </div>
 
     {control breadcrumbs}

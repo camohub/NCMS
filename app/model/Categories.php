@@ -8,6 +8,9 @@ use Nette,
 class Categories
 {
 
+    CONST
+    TABLE_NAME = 'categories';
+
     /** @var Nette\Database\Context */
     protected $database;
 
@@ -26,11 +29,11 @@ class Categories
     /**
      * @return array
      * @desc returns array of arrays
-     * like $a[0][5] $a[0][6] where [0] is parent_id which is array of his childrens
+     * like $a[0][5] $a[0][6] where [0] is parent_id which is array of his children
      */
-    public function getArray()
+    public function getArray($admin = false)
     {
-        $selection = $this->findAll();
+        $selection = $this->findAll($admin);
         $arr = array();
         while($row = $selection->fetch())
         {
@@ -45,37 +48,135 @@ class Categories
     /**
      * @return Nette\Database\Table\Selection
      */
-    protected function findAll()
+    protected function findAll($admin = false)
     {
-        $selection = $this->getTable()
-            ->where('visible = ?', 1)
-            ->order('parent_id ASC, priority ASC');
+        $selection = $this->getTable();
+        $selection = $admin ? $selection : $selection->where('visible = ?', 1);
 
-        return $selection;
+        return $selection->order('parent_id ASC, priority ASC');
+    }
+
+
+    /**
+     * @param array $params
+     * @param bool $admin
+     * @return Nette\Database\Table\Selection
+     */
+    public function findBy(Array $params, $admin = false)
+    {
+        $selection = $this->getTable()->where($params);
+        $selection = $admin ? $selection : $selection->where('visible', 1);
+
+        return $selection->order('parent_id ASC, priority ASC');
     }
 
 
 
     /**
-     * @param $s
-     * @return mixed
+     * @param $s string (:Admin:Blog....)
+     * @return bool|mixed|Nette\Database\Table\IRow
      */
-    public function getCurrentSection($s)
+    public function findOneByUrl($s)
     {
         $s = ltrim($s, ':');
         $s = explode(':', $s)[0];
-        return $this->getTable()->where('url LIKE ?', '%'.$s.'%')->order('parent_id')->limit(1)->fetch();
+        return $this->getTable()->where('url LIKE ?', '%' . $s . '%')->order('parent_id')->limit(1)->fetch();
+
     }
 
 
-/////////Protected/Private////////////////////////////////////////////
+    /**
+     * @param array $params
+     * @param bool $admin
+     * @return bool|mixed|Nette\Database\Table\IRow
+     */
+    public function findOneBy(Array $params, $admin = false)
+    {
+        $selection = $this->getTable()->where($params);
+        $selection = $admin ? $selection : $selection->where('visible', 1);
+
+        return $selection->fetch();
+    }
+
+
+
+    /**
+     * @desc be carefull if parent does not exist returns same row
+     * @param $id
+     * @param bool $admin
+     * @return Nette\Database\Table\IRow
+     */
+    public function getParentRow($id, $admin = false)
+    {
+        $row1 = $admin ? $this->getTable()->get((int)$id) : $this->getTable()->where(array('id' => (int)$id, 'visible' => 1))->fetch();
+        $row2 = $this->getTable()->get($row1->parent_id);
+
+        return $row2 ? $row2 : $row1;
+
+    }
+
+
+
+    /**
+     * @param array $params
+     * @return bool|int|Nette\Database\Table\IRow
+     */
+    public function add(Array $params)
+    {
+        return $this->getTable()->insert($params);
+    }
+
+
+    /**
+     * @param $id
+     * @param $params
+     * @return int
+     */
+    public function update($id, $params)
+    {
+        return $this->getTable()->where('id', $id)->update($params);
+    }
+
+
+    /**
+     * @param $id
+     * @return int
+     */
+    public function delete($id)
+    {
+        return $this->getTable()->where(array('id' => (int)$id, 'app' => 0))->delete();
+    }
+
 
     /**
      * @return Nette\Database\Table\Selection
      */
-    protected function getTable()
+    public function findModules()
     {
-        return $this->database->table('categories');
+        return $this->getTable('modules');
+    }
+
+
+
+    /**
+     * @param $params
+     * @return bool|mixed|Nette\Database\Table\IRow
+     */
+    public function findOneModuleBy($params)
+    {
+        return $this->getTable('modules')->where($params)->fetch();
+    }
+
+
+
+//////Protected/Private///////////////////////////////////////////////////////
+
+    /**
+     * @return Nette\Database\Table\Selection
+     */
+    protected function getTable($tableName = NULL)
+    {
+        return $tableName ? $this->database->table($tableName) : $this->database->table(self::TABLE_NAME);
     }
 
 }

@@ -30,6 +30,8 @@ class AuthorizatorFactory
 		$permission->addResource('article');
 		$permission->addResource('administration');
 		$permission->addResource('user');
+		$permission->addResource('menu');
+		$permission->addResource('image');
 
 		/* registered oprávnenia */
 		$permission->allow('registered', array('comment'), 'add');
@@ -37,6 +39,7 @@ class AuthorizatorFactory
 		/* redactor oprávnenia */
 		$permission->allow('redactor', array('article'), 'add');
 		$permission->allow('redactor', array('article'), 'edit');
+		$permission->allow('redactor', array('image'), 'insert');
 		$permission->allow('redactor', array('administration'), 'view');
 
 		/* admin oprávnenia - na všetko */

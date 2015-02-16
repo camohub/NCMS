@@ -40,7 +40,7 @@ class Menu extends Control
 		$template->menuArr = $arr;
 
 		// if we render only active section other sections are removed from menu
-		// set it in presenter by $menuControl->setSection(Categories->getCurrentSection())
+		// set it in presenter by $menuControl->setSection(Categories->findOneByUrl())
 		$template->section = empty($this->onlyActiveSection) ? $arr[0] : $arr[$this->onlyActiveSection->id] ;
 		if(!empty($this->onlyActiveSection))
 		{

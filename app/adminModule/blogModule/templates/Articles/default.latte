@@ -4,24 +4,24 @@
 
 <div class="pV10 pH25">
 
-	<div n:if="count($flashes)" n:inner-foreach="$flashes as $flash" class="flash">
-		<span>{$flash->message}</span><br>
-	</div>
+    <div n:if="count($flashes)" n:inner-foreach="$flashes as $flash" class="flash">
+        <div class="{$flash->type}">{$flash->message}</div>
+    </div>
 
 	{control breadcrumbs}
 
-	<table class="datagrid">
+	<table class="datagrid w100P mT10">
 		<tr>
 			<th>Názov</th>
 			<th>Autor</th>
 			<th>Vytvorené</th>
 			<th>Akcia</th>
-		<tr>
+		</tr>
 		<tr n:foreach="$articles as $article">
 			<td>{$article->title}</td>
 			<td>{$article->ref('users', 'users_id')->user_name}</td>
 			<td>{$article->created|date:'j.n. Y'}</td>
-			<td>
+			<td class="tAR">
 				<a n:href=":Admin:Blog:Articles:edit $article->id" class="ico ico_modify" title="Edit"></a>
             	<a n:href=":Admin:Blog:Articles:visibility $article->id" n:class="ico, $article->status ? ico_ok : ico_no-entry " title="Visible/Hidden"></a>
             	<a n:href=":Admin:Blog:Comments:default $article->id" class="ico ico_comment" title="Show comments"></a>
@@ -57,4 +57,16 @@
 	</div>
 
 </div>
+
+<script>
+$('.ico_trash','table.datagrid').on('click', function()
+{
+	var title = $(this).closest('tr').find('td:first').text();
+	if(confirm('Naozaj chcete zmazať článok: ' + title + '?'))
+	{
+		return true;
+	}
+	else return false;
+});
+</script>
 

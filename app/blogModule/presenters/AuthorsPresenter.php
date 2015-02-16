@@ -21,7 +21,7 @@ class AuthorsPresenter extends \App\Presenters\BasePresenter
 
 		$categories = new Model\Categories($this->database);
 
-		$currSection = $categories->getCurrentSection($this->getName());
+		$currSection = $categories->findOneByUrl($this->getName());
 		$this['menu']->onlyActiveSection($currSection);
 	}
 
