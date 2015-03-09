@@ -16,7 +16,23 @@ class SignPresenter extends BasePresenter
 	public function renderIn($back_link = NULL)
 	{
 		$this['breadcrumbs']->add('Prihlásiť', 'Sign:in');
+
+		$this->template->fb = TRUE;
+		$this->setHeaderTags(NULL, NULL, $robots = 'noindex, nofolow');
 	}
+
+
+
+	public function actionOut()
+	{
+		$this->getUser()->logout();
+		$this->flashMessage('Boli ste odhlásený.');
+		if($back_link = $this->getParameter('back_link', NULL)) $this->restoreRequest($back_link);
+		else $this->redirect('Default:');
+	}
+
+
+//////component//////////////////////////////////////////////////////////////
 
 	/**
 	 * Sign-in form factory.
@@ -25,13 +41,16 @@ class SignPresenter extends BasePresenter
 	protected function createComponentSignInForm()
 	{
 		$form = new Nette\Application\UI\Form;
+
+		$form->addProtection('Vypršal čas vyhradený pre odoslanie formulára. Z dôvodu rizika útoku CSRF bola požiadavka na server zamietnutá.');
+
 		$form->addText('user_name', 'Username:')
 			->setRequired('Please enter your username.')
 			->setAttribute('class', 'formEl');
 
 		$form->addPassword('password', 'Password:')
 			->setRequired('Please enter your password.')
-			->setAttribute('class', 'formEl');;
+			->setAttribute('class', 'formEl');
 
 		$form->addCheckbox('remember', 'Keep me signed in');
 
@@ -64,24 +83,18 @@ class SignPresenter extends BasePresenter
 			$this->flashMessage('Vitajte '.$values['user_name']);
 			if (isset($values['back_link']))
 			{
+				// This throws an Exception. Be careful what yuo catch.
 				$this->restoreRequest($values['back_link']);
 			}
 			else
 			{
-				$this->redirect('Default:');
+				// This throws an Exception. Be careful what you catch.
+				$this->redirect(':Default:');
 			}
 
 		} catch (Nette\Security\AuthenticationException $e) {
 			$form->addError($e->getMessage());
 		}
-	}
-
-
-	public function actionOut()
-	{
-		$this->getUser()->logout();
-		$this->flashMessage('Boli ste odhlásený.');
-		$this->redirect('in');
 	}
 
 }

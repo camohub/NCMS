@@ -24,7 +24,7 @@ class ImagesPresenter extends App\AdminModule\Presenters\BaseAdminPresenter
 
 	public function startup()
 	{
-		if(!$this->user->isAllowed('image', 'insert'))
+		if(!$this->user->isAllowed('image', 'add'))
 		{
 			throw new App\Exceptions\AccessDeniedException('Nemáte oprávnenie editovať obrázky.');
 		}

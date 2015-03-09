@@ -25,29 +25,66 @@ class RouterFactory
 
 		// zachytí adresy ktoré obsahujú modul a param id = \d+
 		// a vymaže akcie show napr. u článkou lebo produktov
-		$router[] = new Route('<module blog|eshop|forum>/<presenter>[/<action>]/<id \d+>[/<title>]',
-			array('presenter' => 'default',
-				'action' => 'show',
+		// Takto to asi do budúcna nemôže fungovať. Moduly spôsobuju problémy s akciami ktoré myjú byť defaultne skryté(show),
+		$router[] = new Route('<module blog|eshop|forum>/<presenter>[/<action>]/<id \d+>/<title>',
+			array(
+				'presenter' => array(
+					Route::VALUE => 'Default',
+					Route::FILTER_TABLE => array(
+						'clanky' => 'Articles',
+						'autori' => 'Authors',
+					)
+				),
+				'action' => array(
+					Route::VALUE => 'show',
+				),
 				'title' => array(
-					Route::FILTER_IN => function($s)
-					{
-						return $s;
-					},
-					ROUTE::FILTER_OUT => function($s)
+					Route::FILTER_OUT => function($s)
 					{
 						return Strings::webalize($s, NULL, FALSE);
 					}
 				)
 			)
+		);
 
+		// zachytí adresy ktoré obsahujú modul a param vp-page = \d+
+		// a vymaže akcie default napr. u článkou lebo produktov
+		$router[] = new Route('<module blog|eshop|forum>/<presenter>/<action>/<vp-page \d+>',
+			array(
+				'presenter' => array(
+					Route::VALUE => 'Default',
+					Route::FILTER_TABLE => array(
+						'clanky' => 'Articles',
+						'autori' => 'Authors',
+					)
+				),
+				'action' => array(
+					Route::VALUE => 'default',
+					Route::FILTER_TABLE => array(
+						'strana' => 'default',
+						'oblubene' => 'liked',
+					)
+				),
+			)
 		);
 
 		// zachytí adresy, ktoré neobsahujú param id z predošlej routy
-		$router[] = new Route('<module blog|eshop|forum>[/<presenter>[/<action>]]',
-			array('presenter' => 'default',
-				'action' => 'default'
+		$router[] = new Route('<module blog|eshop|forum>[/<presenter>[/<action>/[<id \d+>]]]',
+			array(
+				'presenter' => array(
+					Route::VALUE => 'Default',
+					Route::FILTER_TABLE => array(
+						'clanky' => 'Articles',
+						'autori' => 'Authors',
+					)
+				),
+				'action' => array(
+					Route::VALUE =>'default',
+					Route::FILTER_TABLE => array(
+						'oblubene' => 'liked',
+					)
+				)
 			)
-
 		);
 
 		/* Pre admin sekciu zbytočná, preto zakomentovaná ...

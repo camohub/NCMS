@@ -5,10 +5,10 @@
 
 	{control breadcrumbs}
 
+	<h2 n:block="title">{$author}</h2>
 
 	<div class="content" n:inner-foreach="$articles as $article">
-		<h2 n:if="$iterator->first">{$article->ref('users', 'users_id')->user_name}</h2>
-		<h3><a n:href=":Blog:Articles:show $article->id">{$article->title}</a></h3>
+		<h3><a n:href=":Blog:Articles:show $article->id, $article->title">{$article->title}</a></h3>
 	</div>
 
 </div>

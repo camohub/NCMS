@@ -21,10 +21,12 @@ class AccessDeniedException extends \Exception {}
 
 /**
  * @desc parameter suplied as an argument is wrong (typehint/range)
- * Class AccessDeniedException
+ * Class InvalidArgumentException
  * @package App\Exceptions
  */
 class InvalidArgumentException extends \Exception {}
+
+
 
 
 

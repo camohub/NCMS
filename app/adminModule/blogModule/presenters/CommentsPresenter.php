@@ -5,7 +5,7 @@ use	Nette,
 	App,
 	Nette\Application\UI\Form,
 	Nette\Utils\Finder,
-	Nette\Diagnostics\Debugger;
+	Tracy\Debugger;
 
 class CommentsPresenter extends App\AdminModule\Presenters\BaseAdminPresenter
 {
@@ -27,23 +27,29 @@ class CommentsPresenter extends App\AdminModule\Presenters\BaseAdminPresenter
 		$this->blogArticles = new App\Model\BlogArticles($this->database);
 		$this->blogComments = new App\Model\BlogComments($this->database);
 
-		$this['breadcrumbs']->add('články', ':Admin:Blog:Articles:default');
+		$this['breadcrumbs']->add('Články', ':Admin:Blog:Articles:default');
 	}
 
 
 
 	public function renderDefault($id)
 	{
-		$this['breadcrumbs']->add('komentáre', ':Admin:Blog:Comments:default');
+
 
 		$article = $this->article ? $this->article : $this->blogArticles->findOneBy(array('id' => (int)$id), 'admin');
 
 		$this->template->article = $article;
 
+		$this['breadcrumbs']->add('Komentáre', ':Admin:Blog:Comments:default '.$article->id);
 	}
 
 
-
+	/**
+	 * @secured
+	 * @param $id
+	 * @param $comment_id
+	 * @throws App\Exceptions\AccessDeniedException
+	 */
 	public function handleDelete($id, $comment_id)
 	{
 		if(!$this->user->isAllowed('comment', 'delete'))
@@ -60,7 +66,7 @@ class CommentsPresenter extends App\AdminModule\Presenters\BaseAdminPresenter
 
 
 		try {
-			//$this->blogComments->delete((int)$comment_id);
+			$this->blogComments->delete((int)$comment_id);
 			$this->flashMessage('Komentár bol zmazaný.');
 		}
 		catch(\Exception $e) {
@@ -84,8 +90,6 @@ class CommentsPresenter extends App\AdminModule\Presenters\BaseAdminPresenter
 ///////////component//////////////////////////////////////////////////////////
 
 
-
-/////////component//////////////////////////////////////////////
 
 
 }

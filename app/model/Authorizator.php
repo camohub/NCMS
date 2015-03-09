@@ -32,14 +32,14 @@ class AuthorizatorFactory
 		$permission->addResource('user');
 		$permission->addResource('menu');
 		$permission->addResource('image');
+		$permission->addResource('poll');
 
 		/* registered oprávnenia */
 		$permission->allow('registered', array('comment'), 'add');
 
 		/* redactor oprávnenia */
-		$permission->allow('redactor', array('article'), 'add');
-		$permission->allow('redactor', array('article'), 'edit');
-		$permission->allow('redactor', array('image'), 'insert');
+		$permission->allow('redactor', array('article', 'image', 'poll'), 'add');
+		$permission->allow('redactor', array('article', 'poll'), 'edit');
 		$permission->allow('redactor', array('administration'), 'view');
 
 		/* admin oprávnenia - na všetko */

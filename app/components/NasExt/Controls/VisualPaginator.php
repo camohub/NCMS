@@ -14,8 +14,7 @@
 namespace NasExt\Controls;
 
 use Nette\Application\UI\Control;
-use Nette\Utils\Paginator,
-Nette\Diagnostics\Debugger;
+use Nette\Utils\Paginator;
 
 /**
  * VisualPaginator for Nette

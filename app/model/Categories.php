@@ -144,7 +144,9 @@ class Categories
      */
     public function delete($id)
     {
-        return $this->getTable()->where(array('id' => (int)$id, 'app' => 0))->delete();
+        $ids = $this->deleteHelper($id, $this->getArray('admin'));
+
+        return $this->getTable()->where(array('id' => $ids, 'app' => 0))->delete();
     }
 
 
@@ -177,6 +179,31 @@ class Categories
     protected function getTable($tableName = NULL)
     {
         return $tableName ? $this->database->table($tableName) : $this->database->table(self::TABLE_NAME);
+    }
+
+
+
+    /**
+     * @desc Recursively adds nested ids to array
+     * @param $id
+     * @param array $getArray
+     * @param array $getArrSec
+     * @param array $ids
+     * @return array
+     */
+    protected function deleteHelper($id, Array $getArray, Array $ids = array())
+    {
+        $ids[] = $id;
+
+        if(isset($getArray[$id]))
+        {
+            foreach($getArray[$id] as $row)
+            {
+                $ids = $this->deleteHelper($row->id, $getArray, $ids);
+            }
+        }
+
+        return $ids;
     }
 
 }

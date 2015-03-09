@@ -8,11 +8,13 @@
         <div class="{$flash->type}">{$flash->message}</div>
     </div>
 
+    <h2>Stránka je v príprave</h2>
+
 
 	{control breadcrumbs}
 	
 
-	{control vp}
+	{*control vp}
 
 	{foreach $articles as $article}
 		<div class="content">
@@ -25,7 +27,7 @@
 	{/foreach}
 	
 
-	{control vp}
+	{control vp*}
 
 </div>
 

@@ -23,9 +23,9 @@
 			<td>{$article->created|date:'j.n. Y'}</td>
 			<td class="tAR">
 				<a n:href=":Admin:Blog:Articles:edit $article->id" class="ico ico_modify" title="Edit"></a>
-            	<a n:href=":Admin:Blog:Articles:visibility $article->id" n:class="ico, $article->status ? ico_ok : ico_no-entry " title="Visible/Hidden"></a>
+            	<a n:href="visibility! $article->id" n:class="ico, $article->status ? ico_ok : ico_no-entry " title="Visible/Hidden"></a>
             	<a n:href=":Admin:Blog:Comments:default $article->id" class="ico ico_comment" title="Show comments"></a>
-            	<a n:href=":Admin:Blog:Articles:delete $article->id" n:if="$user->isAllowed('article', 'delete')" class="ico ico_trash" title="Delete"></a>
+            	<a n:href="delete! $article->id" n:if="$user->isAllowed('article', 'delete')" class="ico ico_trash" title="Delete"></a>
             </td>
 		</tr>
 	</table>

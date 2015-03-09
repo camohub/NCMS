@@ -6,8 +6,7 @@ use	Nette,
 	App,
 	App\Exceptions,
 	App\Model,
-	Nette\Security\Passwords,
-	Nette\Diagnostics\Debugger;
+	Tracy\Debugger;
 
 
 
@@ -19,8 +18,11 @@ class RegisterPresenter extends \App\Presenters\BasePresenter
 	/** @var Model\UserManager */
 	private $userManager;
 
+
+
 	public function __construct(Model\UserManager $userManager)
 	{
+		parent::__construct();
 		$this->userManager = $userManager;
 	}
 
@@ -29,20 +31,28 @@ class RegisterPresenter extends \App\Presenters\BasePresenter
 	public function renderDefualt()
 	{
 		$this['breadcrumbs']->add('registrácia', ':Register:default');
+
+		$this->setHeaderTags(NULL, NULL, $robots = 'noindex, nofolow');
 	}
 	
 
+////components//////////////////////////////////////////////////////////////////////////////
 
 	protected function createComponentRegistForm()
 	{
-		$form = new Nette\Application\UI\Form;              
+		$form = new Nette\Application\UI\Form;
+
+		$form->addProtection('Vypršal čas vyhradený pre odoslanie formulára. Z dôvodu rizika útoku CSRF bola požiadavka na server zamietnutá.');
+
 		$form->addText('user_name', 'Meno:')
 			->setRequired('Vyplňte prosím meno.')
 			->setAttribute('class', 'formEl');
 
+		// Password in DB can be NULL cause Facebook. So be careful.
+		// Ofcourse empty string is not evaluete to NULL. So don't be paranoid!
 		$form->addPassword('password', 'Heslo:')
 			->setRequired('Zadajte prosím heslo.')
-			->addRule($form::MIN_LENGTH, 'Zadajte prosím heslo s minimálne %d znakmi', 3)
+			->addRule($form::MIN_LENGTH, 'Zadajte prosím heslo s minimálne %d znakmi', 4)
 			->setAttribute('class', 'formEl');
 		
 		$form->addPassword('password2', 'Zopakujte heslo:')
@@ -51,7 +61,7 @@ class RegisterPresenter extends \App\Presenters\BasePresenter
 			->setAttribute('class', 'formEl');
 			
 		$form->addText('email', 'Email:')
-			->setRequired('Zadajte prosím emailovú adresu.')
+			->setRequired('Zadajte prosím emailovú adresu. Email je povinný. Aktivujete ním svoj účet.')
 			->addRule($form::EMAIL, 'Nezadali ste platnú mailovú adresu. Skontrolujte si ju prosím.', $form['password'])
 			->setAttribute('class', 'formEl');
 			

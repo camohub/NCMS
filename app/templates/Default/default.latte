@@ -14,62 +14,65 @@
 	Rýchly, bezpečný a elegantný - založený na Nette frameworku.
 	</div>
 
-	<div class="pV10">
-		{$user->identity->user_name}
-		{if $user->isInRole('guest')}
-			<span class="color1">je</span> v roli guest
-		{else}
-			<span class="color1">nie je</span> v roli guest
-		{/if}
-	</div>
-	<div class="pV10">
-		{$user->identity->user_name}
-		{if $user->isInRole('registered')}
-			<span class="color1">je</span> v roli registered
-		{else}
-			<span class="color1">nie je</span> v roli registered
-		{/if}
-	</div>
-	<div class="pV10">
-		{$user->identity->user_name}
-		{if $user->isInRole('redactor')}
-			<span class="color1">je</span> v roli redactor
-		{else}
-			<span class="color1">nie je</span> v roli redactor
-		{/if}
-	</div>
-	<div class="pV10">
-		{$user->identity->user_name}
-		{if $user->isInRole('admin')}
-			<span class="color1">je</span> v roli admin
-		{else}
-			<span class="color1">nie je</span> v roli admin
-		{/if}
-	</div>
+	{if $user->isLoggedIn()}
+		<div class="pV10">
+			{$user->identity->user_name}
+			{if $user->isInRole('guest')}
+				<span class="color1">je</span> v roli guest
+			{else}
+				<span class="color1">nie je</span> v roli guest
+			{/if}
+		</div>
+		<div class="pV10">
+			{$user->identity->user_name}
+			{if $user->isInRole('registered')}
+				<span class="color1">je</span> v roli registered
+			{else}
+				<span class="color1">nie je</span> v roli registered
+			{/if}
+		</div>
+		<div class="pV10">
+			{$user->identity->user_name}
+			{if $user->isInRole('redactor')}
+				<span class="color1">je</span> v roli redactor
+			{else}
+				<span class="color1">nie je</span> v roli redactor
+			{/if}
+		</div>
+		<div class="pV10">
+			{$user->identity->user_name}
+			{if $user->isInRole('admin')}
+				<span class="color1">je</span> v roli admin
+			{else}
+				<span class="color1">nie je</span> v roli admin
+			{/if}
+		</div>
 
 
-	<div class="pV10">
-   		{$user->identity->user_name}
-   		{if $user->isallowed('article', 'edit')}
-        	<span class="color1">môže</span> editovať články
-        {else}
-        	<span class="color1">nemôže</span> editovať články
-        {/if}
-   	</div>
-	<div class="pV10">
-   		{$user->identity->user_name}
-   		{if $user->isallowed('article', 'delete')}
-        	<span class="color1">môže</span> mazať články
-        {else}
-        	<span class="color1">nemôže</span> mazať články
-        {/if}
-   	</div>
-	<div class="pV10">
-   		{$user->identity->user_name}
-   		{if $user->isallowed('administration', 'view')}
-        	<span class="color1">môže</span> zobraziť administráciu
-        {else}
-        	<span class="color1">nemôže</span> zobraziť adminostráciu
-        {/if}
-   	</div>
+		<div class="pV10">
+			{$user->identity->user_name}
+			{if $user->isallowed('article', 'edit')}
+				<span class="color1">môže</span> editovať články
+			{else}
+				<span class="color1">nemôže</span> editovať články
+			{/if}
+		</div>
+		<div class="pV10">
+			{$user->identity->user_name}
+			{if $user->isallowed('article', 'delete')}
+				<span class="color1">môže</span> mazať články
+			{else}
+				<span class="color1">nemôže</span> mazať články
+			{/if}
+		</div>
+		<div class="pV10">
+			{$user->identity->user_name}
+			{if $user->isallowed('administration', 'view')}
+				<span class="color1">môže</span> zobraziť administráciu
+			{else}
+				<span class="color1">nemôže</span> zobraziť adminostráciu
+			{/if}
+		</div>
+	{/if}
+
 </div>

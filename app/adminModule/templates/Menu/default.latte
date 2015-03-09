@@ -1,0 +1,197 @@
+{extends ../../../templates/@layoutAdmin.latte}
+
+{block content}
+
+<script type="text/javascript" src="{$basePath}/js/nestedSortable2/jquery.mjs.nestedSortable.js"></script>
+<script type="text/javascript">
+$(document).ready(function()
+{
+	$('.sortable').nestedSortable({
+		/*
+		handle: 'div',
+		items: 'li',
+		toleranceElement: '> div',
+		listType: 'ul',
+		isTree: true,
+		*/
+					//copy of example page
+					listType: 'ul',
+					forcePlaceholderSize: true,
+        			handle: 'div',
+        			helper:	'clone',
+        			items: 'li',
+         			opacity: .6,
+        			placeholder: 'placeholder',
+        			revert: 250,
+        			tabSize: 25,
+        			tolerance: 'pointer',
+        			toleranceElement: '> div',
+        			//end copy
+
+		isAllowed: function(placeholder, placeholderParent, currentItem)
+		{
+			if(placeholderParent)
+			{
+				if(currentItem[0].getAttribute('data-module') != placeholderParent[0].getAttribute('data-module'))
+				{
+					return false;
+				}
+			}
+			return true; // also if level is 0(have not parent)
+		}
+    });
+
+   	$('.editMenu').on('click', function()
+   	{
+   		var serialized = $('ul.sortable').nestedSortable('serialize');
+   		serialized = serialized.replace(/null/g, '0');
+   		$.post({link 'priority!'}/*location.href*/, serialized, function(data)
+		{
+			$.each(data.snippets, function(key, value)
+			{
+				$('#' + key).html(value);
+			});
+		});
+   	});
+
+	////nestedSortable end///////////////////////////////////////////////////////////////////
+
+
+   	$('.ico_trash')
+   		.css({'display':'inline-block'})
+   		.on('click', function(){
+   			if(confirm('Naozaj chcete položku zmazať?')) return true;
+   			else return false;
+   	});
+
+
+   	$('#'+{$control["createSectionForm"]["module_id"]->htmlId}).on('change', function()
+   	{
+		var spinner = $('#ajax-spinner').css({'display':'block'});
+
+   		$.nette.ajax(
+   		{
+   			type: 'GET',
+   			url: {link create!},
+   			data: {	'module_id': $(this).val() },
+   			complete: function()
+   			{
+   				spinner.css({'display' : 'none'});
+   			}
+   		});
+
+   	});
+
+});
+
+
+function activateEditForm(id, title, el)
+{
+	var editSection = $('#editSection');
+	editSection.find('input[name=title]').val(title);
+    editSection.find('input[name=id]').val(id);
+	$('#createSection').css({'display' : 'none'});
+	editSection.slideDown();
+    editSection.offset({ left:editSection.offset().left, top:$(el).offset().top - 20 });  // must be after the slide cause display:none make some trouble
+
+}
+
+
+function activateCreateForm(el)
+{
+	elOffset = $(el).offset();
+	var editSection = $('#createSection');
+	$('#editSection').css({'display' : 'none'});
+	editSection.slideDown();
+    editSection.offset({ left:elOffset.left, top:elOffset.top });  // must be after the slide cause display:none make some trouble
+
+}
+
+</script>
+
+<div class="pV10 pH25">
+
+	{snippet flash}
+    <div n:if="count($flashes)" n:inner-foreach="$flashes as $flash" class="flash">
+        <div class="{$flash->type}">{$flash->message}</div>
+    </div>
+	{/snippet}
+
+	{control breadcrumbs}
+
+	<div class="bgC5 mT10">
+		<div class="thirds2Box fL">
+			<div class="pV30 adminEditMenu">
+
+				<span class="editMenu dIB button1 mH7 mV10 pH20 pV5">Uložiť zmeny</span>
+				<span onclick="activateCreateForm(this);" class="ico ico_add" title="add"> </span>
+
+				{block menu}
+					<ul n:class="!isset($nested) ? sortable"{*.sortable must have only top element*}>
+						{foreach $section as $item}
+						<li data-module="{$item->module_id}"  id="menuItem_{$item->id}">
+							<div>{$item->title}
+								<a n:href=":Admin:Menu:Delete, $item->id" style="display:none" class="ico ico_trash fR" title="delete"> </a>
+								{if $item->app != 1}<span onclick="activateEditForm({$item->id}, {$item->title}, this);" class="ico ico_modify fR" title="upraviť"> </span>{/if}
+								<a n:href=":Admin:Menu:visibility, $item->id" n:class="ico, fR, $item->visible ? ico_ok : ico_no-entry" title="display/hide"> </a>
+							</div>
+							{if isset($menuArr[$item->id])}
+								{include menu, section => $menuArr[$item->id], nested => 1}
+							{/if}
+						</li>
+						{/foreach}
+					</ul>
+				{/block}
+
+				<span class="editMenu dIB button1 mH7 mV5 pH20 pV5">Uložiť zmeny</span>
+
+			</div>
+			<div class="cleaner"> </div>
+		</div>
+
+		<div class="thirds1Box fL">
+			<div class="pV30 pH10">
+
+
+				<div id="createSection" class="dN p10 bgC5 bS1">
+				<span class="ico ico_no-entry fR" onclick="$('#createSection').slideUp();"> </span>
+				<span class="editItem dIB button1 mV10 pH20 pV5">Vytvoriť sekciu</span>
+					<div class="c3">
+						{form createSectionForm}
+						{label title}{/label}<br>
+						{input title}
+						<br><br>
+						{label module_id}{/label}<br>
+						{input module_id}
+						{snippet create_parent}
+						<br><br>
+						{label parent_id}{/label}<br>
+						{input parent_id}
+						{/snippet}
+						<br><br>
+						{input sbmt}
+						{/form}
+					</div>
+				</div>
+
+
+				<div id="editSection" class="dN p10 bgC5 bS1">
+					<span class="ico ico_no-entry fR" onclick="$('#editSection').slideUp();"> </span>
+					<span class="editItem dIB button1 mV10 pH20 pV5">Editovať sekciu</span>
+					<div class="c3">
+						{form editSectionForm}
+						{label title}{/label}<br>
+						{input title}
+						{input id}
+						<br><br>
+						{input sbmt}
+						{/form}
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="clear"></div>
+	</div>
+
+</div>

@@ -28,6 +28,7 @@ database:
 
 services:
 	- App\Model\UserManager
+	- App\Model\UserManagerFB
 	router: App\RouterFactory::createRouter
 	authorizatorFactory: App\Model\AuthorizatorFactory
 	authorizator: @authorizatorFactory::create

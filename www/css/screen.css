@@ -19,6 +19,8 @@ body {
 
 table, tbody, thead, tr, th, td { border-collapse: collapse }
 
+p { margin:0; padding:7px 0; }
+
 #header {
 	padding:80px 10px 30px 210px !important;
 	margin:0;
@@ -39,6 +41,7 @@ table, tbody, thead, tr, th, td { border-collapse: collapse }
 	padding:0;
 	color:#fff;
 	Nbackground-color:green;
+	text-shadow:1px 1px 2px #023;
 }
 
 .sidebar {
@@ -200,6 +203,7 @@ h2, h3 {
 .mB50 { margin-bottom:50px !important; }
 
 
+.mR10 { margin-right: 10px; }
 .mR20 { margin-right: 20px; }
 
 .mV5 {	margin-top:5px; margin-bottom:5px; }
@@ -255,7 +259,6 @@ h2, h3 {
 
 .fL { float:left; }
 .fR { float:right; }
-.clear { clear:both; }
 
 
 .w75 { width:75px; }
@@ -271,6 +274,7 @@ h2, h3 {
 .w33P { width:33.3%; }
 
 .h100P { height: 100%; }
+.h60 { height: 60px; }
 
 
 .dI { display:inline; }
@@ -283,6 +287,9 @@ h2, h3 {
 
 .small1 { font-size:0.8em; }
 .small2 { font-size:0.65em; }
+
+.clear { clear:both; }
+
 
 .c1, .color1, .c1 label { color:#CF9956; }
 .c2, .color2, .c2 label { color:#fff; }
@@ -326,6 +333,9 @@ h2, h3 {
 .tAC { text-align: center; }
 .tAL { text-align: left; }
 .tAR { text-align: right; }
+
+.tSN { text-shadow:0 0 0 #023; /* unset text-shadow from .main */}
+.tS1 { text-shadow:1px 1px 2px #023; }
 
 .td25 td, .td th { width:25%; }
 
@@ -458,6 +468,7 @@ div.flash {
 	padding: .7em;
 	margin:7px 0;
 	font-weight:bold;
+	text-shadow:0 0 0 #dFa956;
 }
 
 div.flash .error {

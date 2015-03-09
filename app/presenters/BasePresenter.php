@@ -4,6 +4,7 @@ namespace App\Presenters;
 
 use Nette,
 	App;
+use Tracy\Debugger;
 
 
 /**
@@ -48,6 +49,40 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
 		$section = explode(':', $this->getName())[0];
 		return stripos($url, $section) === 0;
 		//or return \Nette\Utils\Strings::startsWith($this->getName(), $url);
+	}
+
+
+
+	/**
+	 * @param $owner_id
+	 * @return Nette\Database\Table\Selection
+	 */
+	protected function getOptionalComponents($owner_id)
+	{
+		$optCompArray = array();
+		if($sel = $this->database->table('optional_components')->where(array('owner_id' => $owner_id)))
+		{
+			foreach($sel as $row)
+			{
+				// explode name cause it consists from name + identifier like "poll_50"
+				$optCompArray[explode('_', $row->component_name)[0]] = $row;
+			}
+		}
+		return $optCompArray;
+	}
+
+
+
+	/**
+	 * @param null $desc
+	 * @param null $title
+	 * @param null $robots
+	 */
+	protected function setHeaderTags($desc = NULL, $title = NULL, $robots = NULL)
+	{
+		if($desc) $this->template->metaDesc = $desc;
+		if($title) $this->template->title = $title;
+		if($robots) $this->template->metaRobots = $robots;
 	}
 
 
@@ -109,6 +144,16 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
 		}
 		};   */
 		return $control;
+	}
+
+
+
+	protected function createComponentPoll()
+	{
+		return new Nette\Application\UI\Multiplier(function ($name) {
+
+			return new App\Controls\Poll($this->database, $this, $name);
+		});
 	}
 
 

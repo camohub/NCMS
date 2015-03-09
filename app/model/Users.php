@@ -8,6 +8,9 @@ use Nette,
 class Users
 {
 
+    CONST   TABLE_NAME = 'users';
+
+
     /** @var Nette\Database\Context */
     protected $database;
 
@@ -28,8 +31,22 @@ class Users
      */
     public function findAll($admin = NULL)
     {
-        $users = $admin ? $this->getTable() : $this->getTable()->where('visible', 1);
+        $users = $admin ? $this->getTable() : $this->getTable()->where('active', 1);
         return $users->order('user_name ASC');
+    }
+
+
+    /**
+     * @param array $params
+     * @param bool $admin
+     * @return Nette\Database\Table\Selection
+     */
+    public function findOneBy(Array $params, $admin = FALSE)
+    {
+        $ndbt = $this->getTable()->where($params);
+        $ndbt = $admin ? $ndbt : $ndbt->where('active = ?', 1);
+
+        return $ndbt->fetch();
     }
 
 
@@ -38,9 +55,9 @@ class Users
     /**
      * @return Nette\Database\Table\Selection
      */
-    protected function getTable()
+    protected function getTable($table = NULL)
     {
-        return $this->database->table('users');
+        return $this->database->table($table ? $table : self::TABLE_NAME);
     }
 
 }

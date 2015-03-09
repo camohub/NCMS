@@ -1,0 +1,47 @@
+{extends ../../../templates/@layoutAdmin.latte}
+
+{block content}
+
+<div class="pV10 pH25">
+
+	{snippet flash}
+    <div n:if="count($flashes)" n:inner-foreach="$flashes as $flash" class="flash">
+        <div class="{$flash->type}">{$flash->message}</div>
+    </div>
+	{/snippet}
+
+    {control breadcrumbs}
+
+    <div class="p20 bgC5 c3">
+		{form addPollForm}
+
+			{label title}{/label}
+			<br>
+			{input title}
+			<br><br>
+
+			<b>Pôvodné otázky</b><br>
+			{formContainer old_questions}
+				{foreach $_form->getComponents() as $i}
+					{input $i}
+				{/foreach}
+			{/formContainer}
+			<br><br>
+
+			<b>Nové otázky</b><br>
+			{formContainer questions}
+				{foreach $_form->getComponents() as $i}
+					{input $i}
+				{/foreach}
+			{/formContainer}
+			<br>
+
+			<a class="ico ico_add c3 fL mR20" title="Add question" onclick="$('.dN').eq(0).fadeIn('slow').removeClass('dN'); return false;"> </a>
+
+			{input sbmt}
+
+		{/form}
+    </div>
+
+</div>
+

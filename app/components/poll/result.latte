@@ -1,0 +1,6 @@
+<div class="p10 small1 bgC9 tS1">
+	<h3 class="m0">{$pollArray[NULL][0]->title}</h3>
+	<div n:foreach="$pollArray[$id] as $row" class="mV10">
+		{$row->title}: hlasov {$count = count($row->related('polls_responses', 'polls_question_id'))}
+	</div>
+</div>

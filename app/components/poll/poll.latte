@@ -1,0 +1,4 @@
+<div class="p10 small1 bgC9 tS1" n:if="count($pollArray)">
+	<h3>{$pollArray[NULL][0]->title}</h3>
+	<div n:foreach="$pollArray[$id] as $row" class="pV5"><a n:href="vote $row->id, $row->poll_id">{$row->title}</a></div>
+</div>

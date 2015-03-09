@@ -2,15 +2,33 @@
 * @param string $basePath web base path
 * @param array $flashes flash messages
 *}
-
+{default title => 'NCMS'}
+{default metaDesc => 'NCMS cms založený na Nette frameworku'}
+{default keywords => 'CMS, blog, eshop, forum'}
+{default metaRobots => 'index,follow'}
+{ifset $fb}{* Facebook meta tags ogXYZ *}
+	{default ogTitle => $title}
+	{default ogType => 'website'}
+	{default ogDesc => 'NCMS'}
+	{default ogUrl => $presenter->link('//this')}
+	{default ogImage => $baseUri . '/images/logo.png'}
+{/ifset}
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
-	<meta name="description" content="">
-	<meta name="robots" content="{$robots}" n:ifset="$robots">
+	<meta name="description" content="{$metaDesc}">
+	<meta name="robots" content="{$metaRobots}" n:ifset="$metaRobots">
 
-	<title>{block title|striptags|upper}Nette Application Skeleton{/block}</title>
+	{ifset $fb}{* Facebook tags *}
+		<meta property="og:title" content="{$ogTitle}">
+    	<meta property="og:description" content="{$ogDesc}">
+    	<meta property="og:type" content="{$ogType}">
+    	<meta property="og:url" content="{$ogUrl}">
+    	<meta property="og:image" content="{$ogImage}">
+	{/ifset}
+
+	<title>{block title|striptags}{$title}{/block}</title>
 
 	<link rel="stylesheet" media="screen,projection,tv" href="{$basePath}/css/screen.css">
 	<link rel="stylesheet" media="print" href="{$basePath}/css/print.css">
@@ -18,6 +36,118 @@
 	{block head}{/block}
 </head>
 <body>
+
+{ifset $fb}
+<script>
+window.fbAsyncInit = function() {
+
+	// FB init
+	FB.init({
+		appId		: '344387805765697',
+		status		: false,
+		xfbml		: true,
+		cookie		: true,
+		version		: 'v2.1'
+	});
+};
+
+
+// js () operator executes anonymous fcion immediately
+(function(d, s, id){
+	var js, fjs = d.getElementsByTagName(s)[0];
+	if (d.getElementById(id)) { return; }
+	js = d.createElement(s); js.id = id;
+	js.src = "//connect.facebook.net/en_US/sdk.js";
+	fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+
+
+// This function is called when someone finishes with the Login button.
+function checkLoginState() {
+	FB.getLoginStatus(function(response) {
+		statusChangeCallback(response);
+	});
+}
+
+
+// This fc is called by checkLoginState function above.
+function statusChangeCallback(response) {
+	console.log('statusChangeCallback: ' + response);
+	// The response object is returned with a status field that lets the
+	// app know the current login status of the person.
+	// Full docs on the response object can be found in the documentation
+	// for FB.getLoginStatus().
+	if (response.status === 'connected') {
+		// Logged into your app and Facebook.
+		fbApiCalback();
+	} else if (response.status === 'not_authorized') {
+		// The person is logged into Facebook, but not your app.
+		document.getElementById('fbstatus').innerHTML = 'Please log ' + 'into this app.';
+	} else {
+		// The person is not logged into Facebook, so we're not sure if
+		// they are logged into this app or not.
+		document.getElementById('fbstatus').innerHTML = 'Please log ' + 'into Facebook.';
+	}
+}
+
+
+// This fc is called if statusChangeCallback above is successfull
+function fbApiCalback() {
+	FB.api('/me', function(response) {
+		console.log(response);
+		if(!response.email || response.email == '')
+		{
+            alert('Aplikácia potrebuje Váš email kôli autentizácii.');
+            FB.login(
+            	function(response) {
+            		console.log('Rerequest: ' + response);
+            		checkLoginState();
+            	},
+            	{
+            	  scope: 'email',
+            	  auth_type: 'rerequest'
+            	}
+            );
+		}
+		else
+		{
+			$.ajax({
+				url : {link ':Signfb:in'},
+				accepts : 'json',
+				type : 'post',
+				data : {
+					'email' : response.email,
+					'user_name' : response.name,
+					'id' : response.id,
+				},
+				success : function(data)
+				{
+					console.log('Odpoveď so servera:');	console.log(data);
+					if(data.error)
+					{
+						//console.log(data.error);
+						// Be carefull what is displayed!!!
+						document.getElementById('fbstatus').innerHTML = '<b class="error">' + data.error + '</b>';
+					}
+					else
+					{
+						var url = window.location.href;
+						//console.log(url);
+						url += (url.indexOf("?") === -1)  ?  '?_fid=' + data._fid  :  '&_fid=' + data._fid;
+						window.location = url;
+					}
+				},
+				error : function(data)
+				{
+					document.getElementById('fbstatus').innerHTML = '<b class="error">Pri prihlasovaní došlo k chybe.</b>';
+				}
+			})  // end of $.ajax()
+		}
+	});
+}
+
+</script>
+{/ifset}
 
 {block body}{/block}
 

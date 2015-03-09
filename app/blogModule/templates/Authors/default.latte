@@ -3,20 +3,19 @@
 {block content}
 <div class="pV10 pH25">
 
-
 	{control breadcrumbs}
 
 
 	{if $users}
 		<table class="mT30">
 			<tr n:inner-foreach="$users as $user">
-				{first}{* makes 2 columns in 2 tds*}
+				{first}{* makes 2 columns in 2 TDs*}
 				<td class="tripleBox tAR">
-
 				{/first}
-					<h3 class="m0 p5"><a n:href=":Blog:Authors:show $user->id">{$user->user_name}</a></h3>
-				{last $half}
 
+					<h3 class="m0 p5"><a n:href=":Blog:Authors:show $user->id, $user->user_name">{$user->user_name}</a></h3>
+
+				{last $half}
 				</td>
 				<td class="tripleBox">
 				{/last}
@@ -28,4 +27,6 @@
 		</table>
 	{/if}
 </div>
+
+
 

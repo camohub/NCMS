@@ -1,28 +1,78 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
     ],
-    "hash": "6cfba70340754f9d70db945f5f6090ae",
+    "hash": "0d3bcab2476f4e362a0477cd0d6a4974",
     "packages": [
         {
             "name": "dg/adminer-custom",
-            "version": "v1.5.0",
+            "version": "v1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dg/adminer-custom.git",
-                "reference": "9365952e11b2b706be94c5000bf032027557a45b"
+                "reference": "f1b449b7076d49711fdb41382e5bd858f09855d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dg/adminer-custom/zipball/9365952e11b2b706be94c5000bf032027557a45b",
-                "reference": "9365952e11b2b706be94c5000bf032027557a45b",
+                "url": "https://api.github.com/repos/dg/adminer-custom/zipball/f1b449b7076d49711fdb41382e5bd858f09855d0",
+                "reference": "f1b449b7076d49711fdb41382e5bd858f09855d0",
                 "shasum": ""
             },
             "type": "project",
             "notification-url": "https://packagist.org/downloads/",
             "description": "Customization for the best database management tool written in PHP, Adminer",
-            "time": "2014-08-05 16:59:07"
+            "time": "2015-02-07 20:26:30"
+        },
+        {
+            "name": "facebook/php-sdk-v4",
+            "version": "4.0.18",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/facebook/facebook-php-sdk-v4.git",
+                "reference": "e3f5645354f516331dc2c9c3f16428ec5a27bb21"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/facebook/facebook-php-sdk-v4/zipball/e3f5645354f516331dc2c9c3f16428ec5a27bb21",
+                "reference": "e3f5645354f516331dc2c9c3f16428ec5a27bb21",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "guzzlehttp/guzzle": "~4.0",
+                "mockery/mockery": "dev-master",
+                "phpunit/phpunit": "3.7.*"
+            },
+            "suggest": {
+                "guzzlehttp/guzzle": "Allows for implementation of the Guzzle HTTP client"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Facebook\\": "src/Facebook/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Facebook Platform"
+            ],
+            "authors": [
+                {
+                    "name": "Facebook",
+                    "homepage": "https://github.com/facebook/facebook-php-sdk-v4/contributors"
+                }
+            ],
+            "description": "Facebook SDK for PHP",
+            "homepage": "https://github.com/facebook/facebook-php-sdk-v4",
+            "keywords": [
+                "facebook",
+                "sdk"
+            ],
+            "time": "2015-02-24 19:22:51"
         },
         {
             "name": "latte/latte",
@@ -1103,6 +1153,63 @@
             "time": "2014-12-30 09:55:38"
         },
         {
+            "name": "nextras/secured-links",
+            "version": "v1.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nextras/secured-links.git",
+                "reference": "c8b46967556df817bbd34e51bd8c14ce212242bc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nextras/secured-links/zipball/c8b46967556df817bbd34e51bd8c14ce212242bc",
+                "reference": "c8b46967556df817bbd34e51bd8c14ce212242bc",
+                "shasum": ""
+            },
+            "require": {
+                "nette/application": "~2.2",
+                "nette/utils": "~2.2",
+                "php": "~5.4"
+            },
+            "replace": {
+                "nextras/application": "self.version"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9",
+                "nette/tester": "~1.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.2-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Nextras\\Application\\UI\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jan Skrasek",
+                    "email": "hrach.cz@gmail.com",
+                    "homepage": "http://jan.skrasek.com"
+                }
+            ],
+            "description": "Package secures Nette Framework signals against CSRF attack.",
+            "keywords": [
+                "application",
+                "nette",
+                "nextras",
+                "secured signals"
+            ],
+            "time": "2014-12-11 14:11:57"
+        },
+        {
             "name": "tracy/tracy",
             "version": "v2.2.6",
             "source": {
@@ -1160,16 +1267,16 @@
     "packages-dev": [
         {
             "name": "nette/tester",
-            "version": "v1.3.0",
+            "version": "v1.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/tester.git",
-                "reference": "73e9511cb0bd03efdba398c00e91fac8b22edde7"
+                "reference": "2ce1cd9a6d7012ba059efa08613d5cd6e50c6560"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/tester/zipball/73e9511cb0bd03efdba398c00e91fac8b22edde7",
-                "reference": "73e9511cb0bd03efdba398c00e91fac8b22edde7",
+                "url": "https://api.github.com/repos/nette/tester/zipball/2ce1cd9a6d7012ba059efa08613d5cd6e50c6560",
+                "reference": "2ce1cd9a6d7012ba059efa08613d5cd6e50c6560",
                 "shasum": ""
             },
             "require": {
@@ -1212,20 +1319,16 @@
                 "testing",
                 "unit"
             ],
-            "time": "2014-09-27 10:42:19"
+            "time": "2015-02-08 04:13:28"
         }
     ],
-    "aliases": [
-
-    ],
+    "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [
-
-    ],
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
     "platform": {
         "php": ">= 5.3.7"
     },
-    "platform-dev": [
-
-    ]
+    "platform-dev": []
 }

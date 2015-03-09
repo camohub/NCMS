@@ -4,8 +4,7 @@ namespace App\AdminModule\BlogModule\Presenters;
 use	Nette,
 	App,
 	Nette\Application\UI\Form,
-	Nette\Utils\Finder,
-	Nette\Diagnostics\Debugger;
+	Tracy\Debugger;
 
 class ArticlesPresenter extends App\AdminModule\Presenters\BaseAdminPresenter
 {
@@ -49,7 +48,7 @@ class ArticlesPresenter extends App\AdminModule\Presenters\BaseAdminPresenter
 
 			$this->template->articles = $articles;
 
-			if(!$filter->remember)  // if filter is not in session, settings will be lost for every redirect to renderDefault (i.e. actionVisibility do this obvious)
+			if(!$filter->remember)  // if filter is not in session, settings will be lost for every redirect to renderDefault
 			{
 				unset($this->getSession('Admin:Blog:Articles')->filter);
 			}
@@ -96,8 +95,12 @@ class ArticlesPresenter extends App\AdminModule\Presenters\BaseAdminPresenter
 	}
 
 
-
-	public function actionVisibility($id)
+	/**
+	 * @secured
+	 * @param $id
+	 * @throws App\Exceptions\AccessDeniedException
+	 */
+	public function handleVisibility($id)
 	{
 		if(!$this->user->isAllowed('article', 'edit'))
 		{
@@ -114,13 +117,18 @@ class ArticlesPresenter extends App\AdminModule\Presenters\BaseAdminPresenter
 		$status = $this->article->status == 1 ? 0 : 1;
 		$this->blogArticles->updateArticle(array('status' => $status), (int)$id);
 
+		$this->flashMessage('Zmenili ste vyditeľnosť článku.');
 		$this->redirect(':Admin:Blog:Articles:default');
 
 	}
 
 
-
-	public function actionDelete($id)
+	/**
+	 * @secured
+	 * @param $id
+	 * @throws App\Exceptions\AccessDeniedException
+	 */
+	public function handleDelete($id)
 	{
 		if(!$this->user->isAllowed('article', 'delete'))
 		{
@@ -131,7 +139,7 @@ class ArticlesPresenter extends App\AdminModule\Presenters\BaseAdminPresenter
 
 		if( !($this->article->users_id == $this->user->id || $this->user->isInRole('admin')) )
 		{
-			throw new App\Exceptions\AccessDeniedException('Nemáte právo zmazať tento článok');
+			throw new App\Exceptions\AccessDeniedException('Nemáte právo zmazať tento článok.');
 		}
 
 		$this->blogArticles->delete((int)$id);
@@ -145,6 +153,7 @@ class ArticlesPresenter extends App\AdminModule\Presenters\BaseAdminPresenter
 	public function createComponentArticleForm()
 	{
 		$form = new Form;
+		$form->addProtection('Vypršal čas vyhradený pre odoslanie formulára. Z dôvodu rizika útoku CSRF bola požiadavka na server zamietnutá.');
 
 		$form->addText('meta_desc', 'Popis:', 80)
 		->setRequired();
@@ -236,7 +245,9 @@ class ArticlesPresenter extends App\AdminModule\Presenters\BaseAdminPresenter
 
 	public function filterFormSucceeded($form)
 	{
-		$this->getSession('Admin:Blog:Articles')->filter = $form->getValues();
+		$articleSession = $this->getSession('Admin:Blog:Articles');
+		$articleSession->setExpiration(0);
+		$articleSession->filter = $form->getValues();
 	}
 
 }

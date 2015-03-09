@@ -23,16 +23,25 @@
 		{control menu}
 
 		<ul>
-			{if $presenter->user->isLoggedIn()}
+		{if $presenter->user->isLoggedIn()}
+			{if $user->isAllowed('administration', 'view')}
 			<li><a n:href=":Admin:Default:default" n:class="$presenter->isSectionCurrent(':Admin') ? current" rel="nofollow">Administrácia</a></li>
+			{/if}
 			<li><a n:href=":Sign:out" rel="nofollow">Odhlásiť</a></li>
-			<li class="hr"><span>Prihlásený: {$user->identity->user_name}<br>
+			<li class="hr pH10"><span class="c1">{$user->identity->user_name}<br>
 				Registrovaný: {$user->identity->created|date:'%d.%m.%Y'}</span></li>
-			{else}
+		{else}
 			<li><a n:href=":Sign:in" {ifCurrent Sign:in}class="current"{/ifCurrent} rel="nofollow">Prihlásiť</a></li>
 			<li><a n:href=":Register:default" {ifCurrent Regist:regist}class="current"{/ifCurrent} rel="nofollow">Registrovať</a></li>
-			{/if}
+		{/if}
 		</ul>
+
+		<div class="hr"> </div>
+
+		{if isset($optCompArray['poll'])}
+			{var $poll_name = $optCompArray['poll']->component_name}
+			{control poll-$poll_name}
+		{/if}
 
 	</div>
 

@@ -8,12 +8,17 @@ namespace App\AdminModule\Presenters;
 
 use	Nette,
 	App,
-	Nette\Diagnostics\Debugger;
+	Nextras,
+	Tracy\Debugger;
 
 
 
 class BaseAdminPresenter extends \App\Presenters\BasePresenter
 {
+
+	use Nextras\Application\UI\SecuredLinksPresenterTrait;
+
+
 
 	public function startup()
 	{

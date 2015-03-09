@@ -10,6 +10,7 @@ use Nette,
 
 /**
  * Users management.
+ * Do not use this class to manage users from social networks like FB
  */
 class UserManager extends Nette\Object implements Nette\Security\IAuthenticator
 {
@@ -33,7 +34,7 @@ class UserManager extends Nette\Object implements Nette\Security\IAuthenticator
 
 
 	/**
-	 * @desc Performs an authentication.
+	 * @desc Performs an authentication. Do not use it for users from social networks.
 	 * @param array $credentials
 	 * @return Nette\Security\Identity
 	 * @throws Nette\Security\AuthenticationException
@@ -69,12 +70,13 @@ class UserManager extends Nette\Object implements Nette\Security\IAuthenticator
 	}
 
 
-
 	/**
+ 	 * @desc Do not use it for users from social networks
+	 * @todo $params['roles'] are not implemented yet
 	 * @param $params
-	 * @param $user
 	 * @return bool|int|Nette\Database\Table\IRow
 	 * @throws App\Exceptions\DuplicateEntryException
+	 * @throws \Exception
 	 */
 	public function add($params)
 	{

@@ -1,0 +1,48 @@
+{extends ../../../templates/@layoutAdmin.latte}
+
+{block content}
+
+<div class="pV10 pH25">
+
+	{snippet flash}
+    <div n:if="count($flashes)" n:inner-foreach="$flashes as $flash" class="flash">
+        <div class="{$flash->type}">{$flash->message}</div>
+    </div>
+	{/snippet}
+
+    {control breadcrumbs}
+
+    <div class="bgC5 pB40">
+        <a n:href=":Admin:Polls:add" class="ico ico_add fR m10" title="Add new"> </a>
+
+    	{if !count($pollsArray)}
+    		<h2 class="m0 p0 c3">Neboli nájdená žiadne ankety</h2>
+    	{else}
+
+    		<h2 class="p10 c3">Ankety</h2>
+
+    		<div n:foreach="$polls as $row" class="c3 clear">
+    			<h3 class="mH10 mV5 p10 c2 bgC9">{$row->title}
+    				<a n:href="delete! $row->id" class="ico ico_trash fR" title="Delete"> </a>
+    				<a n:href=":Admin:Polls:edit $row->id" class="ico ico_modify fR mR10" title="Edit"> </a>
+    			</h3>
+    			<div n:foreach="$pollsArray[$row->id] as $rowLev2" class="pV5 pH20">
+    				{$rowLev2->title} ({count($row->related('polls_responses', 'polls_question_id'))})
+    				<a n:href="delete! 'id' => $rowLev2->id, 'question' => 1" class="ico ico_trash fR" title="Delete"> </a>
+    			</div>
+    		</div>
+
+    	{/if}
+    </div>
+
+</div>
+
+<script>
+$('.ico_trash')
+	.css({'display':'inline-block'})
+	.on('click', function(){
+		if(confirm('Naozaj chcete položku zmazať?')) return true;
+		else return false;
+});
+</script>
+

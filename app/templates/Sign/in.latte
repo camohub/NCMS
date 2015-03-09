@@ -12,6 +12,11 @@
 
     <h2 n:block="title" class="mT50 fS2">Prihlasovanie</h2>
 
+    <div id="fbLogin">
+        <b>Prihlásiť cez Facebook</b>
+        <fb:login-button scope="public_profile,email" onload="checkLoginState();"></fb:login-button>
+        <div id="status" class="p10"> </div>
+    </div>
 
     {control signInForm}
 

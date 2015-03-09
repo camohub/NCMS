@@ -20,23 +20,41 @@
 	
 	<div>{$article->content|noescape}</div>
 
+
+	<div class="fb-like pT10" data-colorscheme="dark" data-share="true" data-show-faces="true" data-width="450"> </div>
+
+
 	{if $user->id == $article->users_id}
 		<a n:href=":Admin:Blog:Articles:edit $article->id" class="small1 fR">editovať</a>
 	{/if}
+
+
 
 	<div class="hr"></div>
 
 	{if $user->isAllowed('comment', 'add')}
 		<h3>Vložte nový komentár</h3>
 	
-		{control commentForm}
+		{form commentForm}
+			<ul class="errors" n:if="$form->hasErrors()">
+					<li n:foreach="$form->errors as $error">{$error}</li>
+			</ul>
+			<div class="required">{input content}</div>
+			{input send}
+		{/form}
+
+	{else}
+		<b class="small1">Ak chcete pridávať komentáre musíte sa <a n:href=":Sign:in">prihlásiť na webe</a>, alebo cez
+		Facebook&nbsp;<fb:login-button scope="public_profile,email" return_scopes="true" onlogin="checkLoginState();">&nbsp;</fb:login-button>
+        <div id ="fbstatus"> </div>
 	{/if}
+
 	
 	<h3>Komentáre</h3>
 	
 	<div>
 	    {foreach $comments as $comment}
-	        <p class="small1 color1"><b><a href="mailto:{$comment->email}" n:tag-if="$comment->email">{$comment->name}</a></b></p>
+	        <p class="small1 color1"><b>{$comment->ref('users', 'users_id')->user_name}</b></p>
 	        <div>{$comment->content}</div>
 	    {/foreach}
 	</div>
