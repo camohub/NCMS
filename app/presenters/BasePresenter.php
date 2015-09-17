@@ -3,8 +3,8 @@
 namespace App\Presenters;
 
 use Nette,
-	App;
-use Tracy\Debugger;
+	App,
+	Tracy\Debugger;
 
 
 /**
